@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\s2000954\\source\\repos\\Peli\\Peli\\Peli.csproj",
+      "projectUniqueName": "C:\\Users\\s2000954\\source\\repos\\Peli\\KonsoliPeli\\Peli\\Peli.csproj",
       "projectName": "Peli",
-      "projectPath": "C:\\Users\\s2000954\\source\\repos\\Peli\\Peli\\Peli.csproj",
+      "projectPath": "C:\\Users\\s2000954\\source\\repos\\Peli\\KonsoliPeli\\Peli\\Peli.csproj",
       "packagesPath": "C:\\Users\\s2000954\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\s2000954\\source\\repos\\Peli\\Peli\\obj\\",
+      "outputPath": "C:\\Users\\s2000954\\source\\repos\\Peli\\KonsoliPeli\\Peli\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\s2000954\\AppData\\Roaming\\NuGet\\NuGet.Config",
