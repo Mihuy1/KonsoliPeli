@@ -31,17 +31,10 @@ namespace Peli
 
             playerName = "Human Warrior";
             playerName2 = "Skeleton Warrior";
-
-            damage = random.Next(1, 25);
-            damage2 = random.Next(1, 25);
-
             health = random.Next(25, 100);
             health2 = random.Next(25, 100);
 
-            Console.WriteLine(playerName + " has " + health + " of health and " + damage + " of damage");
-            Console.WriteLine(playerName2 + " has" + health2 + " of health and " + damage + " of damage");
-
-            Console.WriteLine("Battle begins! " + playerName + " against " + playerName2);
+            Damage();
             
         }
 
@@ -49,14 +42,20 @@ namespace Peli
         {
             while(health > 0 || health2 > 0)
             {
+                Random rand = new Random();
+
                 if (firstPlayerAttacked == false)
                 {
                     for (int i = 0; i < health; i++)
                     {
+                        damage = rand.Next(5, 20);
+
                         health -= damage2;
                         firstPlayerAttacked = true;
                         secondPlayerAttacked = false;
 
+                        Console.WriteLine(playerName + " attacked " + playerName2 + " and dealt " + damage + " of damage");
+                        Console.WriteLine(playerName +" has" + health + " health and " + playerName2 + " has" + health2 + " health");;
                     }
                 }
 
@@ -64,9 +63,14 @@ namespace Peli
                 {
                     for (int i = 0; i < health;i++)
                     {
+                        damage2 = rand.Next(5, 20);
+
                         health2 -= damage;
                         secondPlayerAttacked = true;
                         firstPlayerAttacked = false;
+
+                        Console.WriteLine(playerName2 + " attacker " + playerName + " and dealth" + damage + " of damage");
+                        Console.WriteLine(playerName + " has" + health + " health and " + playerName2 + " has" + health2 + " health");
                     }
                 }
             }
