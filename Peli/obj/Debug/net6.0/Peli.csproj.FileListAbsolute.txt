@@ -1,0 +1,15 @@
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.csproj.AssemblyReference.cache
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.AssemblyInfoInputs.cache
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.AssemblyInfo.cs
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.csproj.CoreCompileInputs.cache
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\bin\Debug\net6.0\Peli.exe
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\bin\Debug\net6.0\Peli.deps.json
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\bin\Debug\net6.0\Peli.runtimeconfig.json
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\bin\Debug\net6.0\Peli.dll
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\bin\Debug\net6.0\Peli.pdb
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.dll
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\refint\Peli.dll
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.pdb
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\Peli.genruntimeconfig.cache
+C:\Users\s2000954\source\repos\Peli\KonsoliPeli\Peli\obj\Debug\net6.0\ref\Peli.dll
