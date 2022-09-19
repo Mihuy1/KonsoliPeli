@@ -120,7 +120,7 @@ namespace Peli
 
                     Console.WriteLine("Choose target: ");
                     int target = Convert.ToInt32(Console.ReadLine());
-                    string chosenTarget;
+                    string chosenTarget = "s";
 
                     if (target == 1 && skeletonWarriorHP > 0)
                     {
@@ -150,6 +150,8 @@ namespace Peli
                         secondPlayerAttacked = false; // AI's army hasn't attacked yet
 
                         // Print dealth damage & health here:
+                        Console.WriteLine(chosenPlayer + " dealt" + chosenPlayerDMG + " damage");
+                        Console.WriteLine(chosenTarget + " now has " + target + " health");
 
                         // To continue user has to press a key.
                         Console.WriteLine("Press Enter to continue....");
@@ -160,6 +162,14 @@ namespace Peli
 
                 else if (secondPlayerAttacked == false)
                 {
+
+                    Console.WriteLine("AI's turn");
+                    Console.WriteLine("Press enter to continue...");
+                    Console.ReadLine();
+
+
+
+
 
                     if (skeletonWarriorHP <= 0)
                     {
