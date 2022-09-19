@@ -94,11 +94,14 @@ namespace Peli
 
                 if (firstPlayerAttacked == false)
                 {
+
+                    // Let the player choose which character attacks and then which enemy it will attack
                     Console.WriteLine("Give number to choose: ");
                     int player = Convert.ToInt32(Console.ReadLine());
                     string chosenPlayer;
                     int chosenPlayerDMG;
 
+                    // Make the integer equal to the chosen player
                     if (player == 1)
                     {
                         chosenPlayer = humanWarrior;
@@ -162,30 +165,67 @@ namespace Peli
 
                 else if (secondPlayerAttacked == false)
                 {
-
+                    // Choose randomly which player character to attack and who will attack
                     Console.WriteLine("AI's turn");
                     Console.WriteLine("Press enter to continue...");
-                    Console.ReadLine();
+                    Console.ReadLine(); // Wait for input to continue
 
+                    int AIHP = rand.Next(1, 3); // virhe!!!!!!!!!!!!!
+                    int AIDMG;
+                    string AICharacter;
 
-
-
-
-                    if (skeletonWarriorHP <= 0)
+                    if (AIHP == 1)
                     {
-                        Console.WriteLine(skeletonWarrior + " died");
+                        AIHP = skeletonWarriorHP;
+                        AICharacter = skeletonWarrior;
+                        AIDMG = skeletonWarriorDMG;
+                        Console.WriteLine("AI chose " + AICharacter);
+                    } else if (AIHP == 2)
+                    {
+                        AIHP = skeletonArcherHP;
+                        AICharacter = skeletonArcher;
+                        AIDMG = skeletonArcherDMG;
+                        Console.WriteLine("AI chose" + AICharacter);
+                    } else
+                    {
+                        AIHP = skeletonMageHP;
+                        AICharacter = skeletonMage;
+                        AIDMG = skeletonMageDMG;
+                    }
+
+                    int AITargetHP = rand.Next(1, 3); // Randomly choose which character to attack
+                    string AITarget; // string of the chosen player character
+
+                    // Now make the integer and string equal to the chosen player character
+                    if (AITargetHP == 1)
+                    {
+                        AITargetHP = humanWarriorHP;
+                        AITarget = humanWarrior;
+                    } else if (AITargetHP == 2)
+                    {
+                        AITargetHP = humanArcherHP;
+                        AITarget = humanArcher;
+                    } else
+                    {
+                        AITargetHP = humanMageHP;
+                        AITarget = humanMage;
+                    }
+
+                    if (AIHP <= 0)
+                    {
+                        Console.WriteLine(AICharacter + " died");
                     }
 
                     for (int i = 0; i < 1;i++)
                     {
-                        skeletonWarriorDMG = rand.Next(5, 20); // set random damage
+                        AIDMG = rand.Next(5, 20); // set random damage
 
-                        humanWarriorHP -= skeletonWarriorDMG; // First player takes damage from second player.
+                        AITargetHP -= AIDMG; // First player takes damage from second player.
                         secondPlayerAttacked = true;
                         firstPlayerAttacked = false;
 
-                        Console.WriteLine(skeletonWarrior + " attacked " + humanWarrior + " and dealt " + skeletonWarriorDMG + " of damage");
-                        Console.WriteLine(skeletonWarrior + " has " + skeletonWarriorHP + " health and " + humanWarrior + " has " + humanWarriorHP + " health");
+                        Console.WriteLine(AICharacter + " dealt " + AIDMG + " damage");
+                        Console.WriteLine(AITarget + " now has " + AITargetHP + " health");
 
                         Console.WriteLine("Press Enter to continue....");
 
