@@ -61,7 +61,7 @@ namespace Peli
                 }
 
                 // Valitaan vihollinen
-                Console.WriteLine("Choose which enemy to attack:\n4: " + skeletonWarrior.name);
+                Console.WriteLine("Choose which enemy to attack:\n4: " + skeletonWarrior.name + "\n5: " + skeletonArcher.name + "\n6: " + skeletonMage.name);
                 int target = Convert.ToInt32(Console.ReadLine());
 
                 var attackerUnit = player_army[attacker - 1];
@@ -69,15 +69,21 @@ namespace Peli
                 {
                     Console.WriteLine("You chose: " + skeletonWarrior.name);
                     FightEnemy(attackerUnit, skeletonWarrior);
-                } else if (target == SKELETONARCHER)
+                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonWarrior.name + " and dealt " + attackerUnit.dmg + "\n" + skeletonWarrior.name + " now has " + skeletonWarrior.hp + " health");
+
+                } 
+                else if (target == SKELETONARCHER)
                 {
                     Console.WriteLine("You chose: " + skeletonArcher.name);
                     FightEnemy(attackerUnit, skeletonArcher);
-                } else if (target == SKELETONMAGE)
+                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonArcher.name + " and dealt " + attackerUnit.dmg + "\n" + skeletonArcher.name + " now has " + skeletonArcher.hp + " health");
+                } 
+                else if (target == SKELETONMAGE)
                 {
                     Console.WriteLine("You chose: " + skeletonMage.name);
                     // Hyökätään vihollista
                     FightEnemy(attackerUnit, skeletonMage);
+                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonMage.name + " and dealt " + attackerUnit.dmg + "\n" + skeletonMage.name + " now has " + skeletonMage.hp + " health");
                 }
 
                 
@@ -97,7 +103,6 @@ namespace Peli
             void FightEnemy(Unit attacker, Unit target)
             {
                 target.hp -= attacker.dmg;
-                Console.WriteLine(attacker.name + " attacked " + target.name + " and dealt " + attacker.dmg + "\n" + target.name + " now has " + target.hp + " health");
             }
 
             void FightPlayer()
@@ -123,10 +128,6 @@ namespace Peli
                     Console.WriteLine(skeletonMage.name + " attacked " + humanMage.name + " and dealt " + skeletonMage.dmg + "\n" + humanMage.name + " has "
                         + humanMage.hp + " health");
                 }
-
-                /*humanWarrior.hp -= skeletonWarrior.dmg;
-                Console.WriteLine(skeletonWarrior.name + " attacked " + humanWarrior.name + "\nNow " + humanWarrior.name + " has "
-                + humanWarrior.hp + " health");*/
             }
         }
 
