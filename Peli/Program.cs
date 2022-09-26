@@ -26,6 +26,8 @@ namespace Peli
             const int SKELETONARCHER = 5;
             const int SKELETONMAGE = 6;
 
+
+
             Unit humanWarrior = new Unit("Human Warrior", random.Next(5,10), 15);
             Unit humanArcher = new Unit("Human Archer", random.Next(5,10), 10);
             Unit humanMage = new Unit("Human Mage", random.Next(5,10),10);
@@ -42,10 +44,17 @@ namespace Peli
             enemy_army.Add(skeletonArcher);
             enemy_army.Add(skeletonMage);
 
+            string chooseCharacter = "Choose character: " + "\n" + "1: " + humanWarrior.name + "\n2: "
+            + humanArcher.name + "\n3: " + humanMage.name;
+
+            string chooseEnemy = "Choose which enemy to attack:\n4: " + skeletonWarrior.name 
+            + "\n5: " + skeletonArcher.name + "\n6: " + skeletonMage.name;
+
 
             while (true)
             {
-                Console.WriteLine("Choose character: " + "\n" + "1: " + humanWarrior.name + "\n2: " + humanArcher.name + "\n3: " + humanMage.name);
+
+                Console.WriteLine(chooseCharacter);
                 int attacker = Convert.ToInt32(Console.ReadLine());
                 
                 // Valitaan koka hyökkää
@@ -69,7 +78,14 @@ namespace Peli
                 {
                     Console.WriteLine("You chose: " + skeletonWarrior.name);
                     FightEnemy(attackerUnit, skeletonWarrior);
-                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonWarrior.name + " and dealt " + attackerUnit.dmg + "\n" + skeletonWarrior.name + " now has " + skeletonWarrior.hp + " health");
+                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonWarrior.name + " and dealt " + attackerUnit.dmg
+                        + "\n" + skeletonWarrior.name + " now has " + skeletonWarrior.hp + " health");
+
+                    if (skeletonWarrior.hp <= 0)
+                    {
+                        Console.WriteLine(skeletonWarrior.name + " died!");
+                        enemy_army.Remove(skeletonWarrior);
+                    }
 
                 } 
                 else if (target == SKELETONARCHER)
@@ -127,6 +143,38 @@ namespace Peli
 
                     Console.WriteLine(skeletonMage.name + " attacked " + humanMage.name + " and dealt " + skeletonMage.dmg + "\n" + humanMage.name + " has "
                         + humanMage.hp + " health");
+                }
+            }
+
+            void CheckIfAlive()
+            {
+                if (humanWarrior.hp <= 0)
+                {
+                    Console.WriteLine(humanWarrior.name + " died!");
+                    player_army.Remove(humanWarrior);
+                }
+                if (humanArcher.hp <= 0)
+                {
+                    Console.WriteLine(humanArcher.name + " died");
+                    player_army.Remove(humanArcher);
+                }
+                if (humanMage.hp <= 0)
+                {
+                    Console.WriteLine(humanMage.name + " died!");
+                    player_army.Remove(humanMage);
+                }
+
+
+                if (skeletonWarrior.hp <= 0)
+                {
+                    Console.WriteLine(skeletonWarrior.name + " died!");
+                    enemy_army.Remove(skeletonWarrior);
+                }
+
+                if (skeletonArcher.hp <= 0)
+                {
+                    Console.WriteLine(skeletonArcher.name + " died!");
+                    enemy_army.Remove(skeletonArcher);
                 }
             }
         }
