@@ -26,8 +26,6 @@ namespace Peli
             const int SKELETONARCHER = 5;
             const int SKELETONMAGE = 6;
 
-
-
             Unit humanWarrior = new Unit("Human Warrior", random.Next(5,10), 15);
             Unit humanArcher = new Unit("Human Archer", random.Next(5,10), 10);
             Unit humanMage = new Unit("Human Mage", random.Next(5,10),10);
@@ -36,7 +34,7 @@ namespace Peli
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(5, 10), 10);
             Unit skeletonMage = new Unit("Skeleton Mage", random.Next(6,10), 10);
 
-            player_army.Add(humanWarrior); // 0 = HUMAWARRIOR - 1
+            player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
             player_army.Add(humanMage);
             
@@ -61,12 +59,17 @@ namespace Peli
                 if (attacker == HUMANWARRIOR)
                 {
                     Console.WriteLine("You chose: " + humanWarrior.name);
+                    CheckIfAlive(humanWarrior);
+
                 } else if (attacker == HUMANARCHER)
                 {
                     Console.WriteLine("You chose: " + humanArcher.name);
+                    CheckIfAlive(humanArcher);
+
                 } else if (attacker == HUMANMAGE)
                 {
                     Console.WriteLine("You chose: " + humanMage.name);
+                    CheckIfAlive(humanMage);
                 }
 
                 // Valitaan vihollinen
@@ -79,27 +82,28 @@ namespace Peli
                     Console.WriteLine("You chose: " + skeletonWarrior.name);
                     FightEnemy(attackerUnit, skeletonWarrior);
                     Console.WriteLine(attackerUnit.name + " attacked " + skeletonWarrior.name + " and dealt " + attackerUnit.dmg
-                        + "\n" + skeletonWarrior.name + " now has " + skeletonWarrior.hp + " health");
+                    + "\n" + skeletonWarrior.name + " now has " + skeletonWarrior.hp + " health");
 
-                    if (skeletonWarrior.hp <= 0)
-                    {
-                        Console.WriteLine(skeletonWarrior.name + " died!");
-                        enemy_army.Remove(skeletonWarrior);
-                    }
+                    CheckIfAliveEnemy(skeletonWarrior);
 
                 } 
                 else if (target == SKELETONARCHER)
                 {
                     Console.WriteLine("You chose: " + skeletonArcher.name);
                     FightEnemy(attackerUnit, skeletonArcher);
-                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonArcher.name + " and dealt " + attackerUnit.dmg + "\n" + skeletonArcher.name + " now has " + skeletonArcher.hp + " health");
+                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonArcher.name + " and dealt " + attackerUnit.dmg 
+                    + "\n" + skeletonArcher.name + " now has " + skeletonArcher.hp + " health");
+
+                    CheckIfAliveEnemy(skeletonArcher);
                 } 
                 else if (target == SKELETONMAGE)
                 {
                     Console.WriteLine("You chose: " + skeletonMage.name);
                     // Hyökätään vihollista
                     FightEnemy(attackerUnit, skeletonMage);
-                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonMage.name + " and dealt " + attackerUnit.dmg + "\n" + skeletonMage.name + " now has " + skeletonMage.hp + " health");
+                    Console.WriteLine(attackerUnit.name + " attacked " + skeletonMage.name + " and dealt " + attackerUnit.dmg 
+                    + "\n" + skeletonMage.name + " now has " + skeletonMage.hp + " health");
+                    CheckIfAliveEnemy(skeletonMage);
                 }
 
                 
@@ -146,35 +150,23 @@ namespace Peli
                 }
             }
 
-            void CheckIfAlive()
+            void CheckIfAlive(Unit unit)
             {
-                if (humanWarrior.hp <= 0)
+                
+                if (unit.hp <= 0)
                 {
-                    Console.WriteLine(humanWarrior.name + " died!");
-                    player_army.Remove(humanWarrior);
-                }
-                if (humanArcher.hp <= 0)
-                {
-                    Console.WriteLine(humanArcher.name + " died");
-                    player_army.Remove(humanArcher);
-                }
-                if (humanMage.hp <= 0)
-                {
-                    Console.WriteLine(humanMage.name + " died!");
-                    player_army.Remove(humanMage);
+                    player_army.Remove(unit);
+                    Console.WriteLine(unit.name + " died!");
                 }
 
+            }
 
-                if (skeletonWarrior.hp <= 0)
+            void CheckIfAliveEnemy(Unit unit)
+            {
+                if (unit.hp <= 0)
                 {
-                    Console.WriteLine(skeletonWarrior.name + " died!");
-                    enemy_army.Remove(skeletonWarrior);
-                }
-
-                if (skeletonArcher.hp <= 0)
-                {
-                    Console.WriteLine(skeletonArcher.name + " died!");
-                    enemy_army.Remove(skeletonArcher);
+                    enemy_army.Remove(unit);
+                    Console.WriteLine(unit + " died");
                 }
             }
         }
