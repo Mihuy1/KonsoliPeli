@@ -26,13 +26,13 @@ namespace Peli
             const int SKELETONARCHER = 5;
             const int SKELETONMAGE = 6;
 
-            Unit humanWarrior = new Unit("Human Warrior", random.Next(5,10), 10);
-            Unit humanArcher = new Unit("Human Archer", random.Next(5,10), 10);
-            Unit humanMage = new Unit("Human Mage", random.Next(5,10),10);
+            Unit humanWarrior = new Unit("Human Warrior", random.Next(8,15), 45);
+            Unit humanArcher = new Unit("Human Archer", random.Next(10,20), 25);
+            Unit humanMage = new Unit("Human Mage", random.Next(5,10),24);
 
-            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(5,10), 15);
-            Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(5, 10), 10);
-            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(6,10), 10);
+            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9,15), 45);
+            Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 25);
+            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5,10), 24);
 
             player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
@@ -51,9 +51,15 @@ namespace Peli
                 string chooseCharacter = "";
                 string chooseEnemy = "";
 
-                Console.ForegroundColor = ConsoleColor.Green;
+                if (CheckIfWon() == true)
+                {
+                    break;
+                }
+
 
                 Console.WriteLine("Choose Character");
+
+                Console.ForegroundColor = ConsoleColor.Green;
 
                 foreach (Unit unit in player_army)
                 {
@@ -62,6 +68,7 @@ namespace Peli
                 }
 
                 Console.WriteLine(chooseCharacter);
+                Console.ForegroundColor= ConsoleColor.White;
 
                 int attacker = Convert.ToInt32(Console.ReadLine());
                 
@@ -79,14 +86,6 @@ namespace Peli
                     if (CheckIfAlive(humanArcher) == true)
                     {
                         Console.WriteLine("You chose: " + humanArcher.name);
-
-                        if (CheckIfAlive(humanArcher) == false)
-                        {
-                            Console.WriteLine("Press Enter to choose character again");
-                            Console.ReadLine();
-                            Console.Clear();
-                            continue;
-                        }
                     } 
 
                 } else if (attacker == HUMANMAGE)
@@ -117,6 +116,7 @@ namespace Peli
                 }
 
                 Console.WriteLine(chooseEnemy);
+                Console.ForegroundColor = ConsoleColor.White;
 
                 int target = Convert.ToInt32(Console.ReadLine());
 
@@ -155,17 +155,16 @@ namespace Peli
 
                     Console.WriteLine(attackerUnit.name + " attacked " + skeletonMage.name + " and dealt " + attackerUnit.dmg 
                     + "\n" + skeletonMage.name + " now has " + skeletonMage.hp + " health");
+
                     CheckIfAliveEnemy(skeletonMage); // Check if hp is equal to or lower than 0
                 }
 
-                Console.WriteLine("Press Enter to Continue....");
-                Console.ReadLine();
+                PressEnterToContinue();
 
                 // Hyökätään pelaajaa
                 FightPlayer();
 
-                Console.WriteLine("Press Enter to continue....");
-                Console.ReadLine();
+                PressEnterToContinue();
 
 
             }
@@ -209,6 +208,27 @@ namespace Peli
                 {
                     enemy_army.Remove(unit);
                     Console.WriteLine(unit.name + " died");
+                    return true;
+                }
+
+                return false;
+            }
+
+            void PressEnterToContinue()
+            {
+                Console.WriteLine("Press Enter to continue...");
+                Console.ReadLine();
+            }
+
+            bool CheckIfWon()
+            {
+                if (player_army.Count == 0)
+                {
+                    Console.WriteLine("Enemy won!");
+                    return true;
+                } else if (enemy_army.Count == 0)
+                {
+                    Console.WriteLine("Player won!");
                     return true;
                 }
 
