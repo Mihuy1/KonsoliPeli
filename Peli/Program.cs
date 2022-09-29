@@ -42,7 +42,6 @@ namespace Peli
             enemy_army.Add(skeletonArcher);
             enemy_army.Add(skeletonMage);
 
-
             while (true)
             {
                 int number = 1;
@@ -55,7 +54,6 @@ namespace Peli
                 {
                     break;
                 }
-
 
                 Console.WriteLine("Choose Character");
 
@@ -88,7 +86,8 @@ namespace Peli
                         Console.WriteLine("You chose: " + humanArcher.name);
                     } 
 
-                } else if (attacker == HUMANMAGE)
+                } 
+                else if (attacker == HUMANMAGE)
                 {
                     if (CheckIfAlive(humanMage) == true)
                     {
@@ -166,7 +165,6 @@ namespace Peli
 
                 PressEnterToContinue();
 
-
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -226,7 +224,9 @@ namespace Peli
                 {
                     Console.WriteLine("Enemy won!");
                     return true;
-                } else if (enemy_army.Count == 0)
+
+                } 
+                else if (enemy_army.Count == 0)
                 {
                     Console.WriteLine("Player won!");
                     return true;
