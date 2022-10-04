@@ -11,11 +11,14 @@ using System.Windows.Input;
 namespace Peli
 {
     public class Program
-    {
+    { 
+
         public static void Main(string[] args)
         {
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
+
+            var instance = new Battle();
 
             Random random = new Random();
 
@@ -35,43 +38,42 @@ namespace Peli
             enemy_army.Add(skeletonArcher);
             enemy_army.Add(skeletonMage);
 
+            int number1 = 13;
 
             while (true)
             {
-                string chooseCharacter = "";
-                string chooseEnemy = "";
+                int number = 1;
 
-                if (CheckIfWon() == true)
+                if (CheckIfWon())
                 {
                     break;
                 }
 
-
                 Console.SetCursorPosition(15, 0);
-                Console.WriteLine("[---------- Status ----------]");
+                Console.WriteLine("[------------ Status ------------]");
 
                 foreach (Unit unit in player_army)
                 {
-                    chooseCharacter += unit.id + "." + unit.name + "\n";
+                    Console.WriteLine(unit.id + "." + unit.name);
                 }
 
                 foreach (Unit unit in enemy_army)
                 {
-                    chooseEnemy += unit.id + "." + unit.name + "\n";
+                    Console.SetCursorPosition(20, number);
+                    Console.WriteLine(unit.id + "." + unit.name);
+                    number++;
                 }
-                Console.SetCursorPosition(0, 1);
-                Console.Write(chooseCharacter);
-                Console.Write(chooseEnemy);
 
                 Console.ForegroundColor = ConsoleColor.White;
                 int attacker = Convert.ToInt32(Console.ReadLine());
+
+                Console.SetCursorPosition(15, 7);
+                Console.WriteLine("[------------ Message ------------]");
 
                 if (attacker > humanMage.id)
                 {
                     Console.Clear();
                     Console.WriteLine("Incorrect id!");
-
-                    Console.WriteLine(chooseCharacter);
                     attacker = Convert.ToInt32(Console.ReadLine());
                 }
 
@@ -79,21 +81,16 @@ namespace Peli
 
                 //////////////////////////////////////////////////////////
 
-
                 // Valitaan vihollinen
-                Console.WriteLine("Choose which one to attack: ");
-
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-
-                Console.WriteLine(chooseEnemy);
+                Console.WriteLine("Choose who to attack: ");
 
                 int target = Convert.ToInt32(Console.ReadLine());
+
 
                 if (target > skeletonMage.id)
                 {
                     Console.Clear();
                     Console.WriteLine("Incorrect id!");
-                    Console.WriteLine(chooseEnemy);
                     target = Convert.ToInt32(Console.ReadLine());
                 }
 
@@ -103,58 +100,56 @@ namespace Peli
 
                 if (target == skeletonWarrior.id)
                 {
-                    Console.WriteLine("You chose: " + skeletonWarrior.name);
-
-                    // Hyökätään vihollista
                     FightEnemy(attackerUnit, skeletonWarrior);
-
                 }
                 else if (target == skeletonArcher.id)
                 {
-                    Console.WriteLine("You chose: " + skeletonArcher.name);
-
-                    // Hyökätään vihollista
                     FightEnemy(attackerUnit, skeletonArcher);
                 }
                 else if (target == skeletonMage.id)
                 {
-                    Console.WriteLine("You chose: " + skeletonMage.name);
-
-                    // Hyökätään vihollista
                     FightEnemy(attackerUnit, skeletonMage);
                 }
 
                 // Hyökätään pelaajaa
                 FightPlayer();
 
-                Console.WriteLine("Press a key to continue....");
-                Console.ReadKey();
-                Console.Clear();
             }
-
-
-
 
             void FightEnemy(Unit attacker, Unit target)
             {
                 target.hp -= attacker.dmg;
 
+                Console.SetCursorPosition(15, 12);
+                Console.WriteLine("------------ History ------------");
+
+                Console.SetCursorPosition(1, number1);
                 Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
+                number1++;
             }
 
             void ChooseWhoWillAttack(int i)
             {
                 if (i == humanWarrior.id)
                 {
-                    Console.WriteLine("You chose: " + humanWarrior.name);
+                    Console.Write("You chose: ");
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.WriteLine(humanWarrior.name);
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else if (i == humanArcher.id)
                 {
-                    Console.WriteLine("You chose: " + humanArcher.name);
+                    Console.WriteLine("You chose: ");
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.WriteLine(humanArcher.name);
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else if (i == humanMage.id)
                 {
-                    Console.WriteLine("You chose: " + humanMage.name);
+                    Console.WriteLine("You chose: " );
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.WriteLine(humanMage.name);
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
             }
 
@@ -167,20 +162,6 @@ namespace Peli
                 Unit player = player_army[playerIndex];
 
                 player.hp -= enemy.hp;
-
-                Console.WriteLine(enemy.name + " attacked " + player.name + " and dealt " + enemy.dmg + " damage");
-            }
-
-            bool CheckIfAliveEnemy(Unit unit)
-            {
-                if (unit.hp <= 0)
-                {
-                    enemy_army.Remove(unit);
-                    Console.WriteLine(unit.name + " died");
-                    return true;
-                }
-
-                return false;
             }
 
             bool CheckIfWon()
@@ -188,8 +169,10 @@ namespace Peli
                 if (player_army.Count == 0)
                 {
                     Console.WriteLine("Enemy won!");
+
                     SoundPlayer my_wave_file = new SoundPlayer("Sounds/GameOver.wav");
                     my_wave_file.PlaySync();
+
                     return true;
 
                 }
