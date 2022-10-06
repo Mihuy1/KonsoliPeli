@@ -18,8 +18,6 @@ namespace Peli
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
 
-            var instance = new Battle();
-
             Random random = new Random();
 
             Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 45, 1);
@@ -39,22 +37,35 @@ namespace Peli
             enemy_army.Add(skeletonMage);
 
             int number1 = 13;
+            int number2 = 8;
+
+            Console.SetCursorPosition(15, 0);
+            Console.WriteLine("[------------ Status ------------]");
+
+            Console.SetCursorPosition(15, 7);
+            Console.WriteLine("[------------ Message ------------]");
+
+            Console.SetCursorPosition(15, 12);
+            Console.WriteLine("------------ History ------------");
 
             while (true)
             {
                 int number = 1;
+                int numberPlayer = 1;
 
                 if (CheckIfWon())
                 {
                     break;
                 }
 
-                Console.SetCursorPosition(15, 0);
-                Console.WriteLine("[------------ Status ------------]");
+                //Console.SetCursorPosition(15, 0);
+                //Console.WriteLine("[------------ Status ------------]");
 
                 foreach (Unit unit in player_army)
                 {
+                    Console.SetCursorPosition(1, numberPlayer);
                     Console.WriteLine(unit.id + "." + unit.name);
+                    numberPlayer++;
                 }
 
                 foreach (Unit unit in enemy_army)
@@ -67,12 +78,11 @@ namespace Peli
                 Console.ForegroundColor = ConsoleColor.White;
                 int attacker = Convert.ToInt32(Console.ReadLine());
 
-                Console.SetCursorPosition(15, 7);
-                Console.WriteLine("[------------ Message ------------]");
+                //Console.SetCursorPosition(15, 7);
+                //Console.WriteLine("[------------ Message ------------]");
 
                 if (attacker > humanMage.id)
                 {
-                    Console.Clear();
                     Console.WriteLine("Incorrect id!");
                     attacker = Convert.ToInt32(Console.ReadLine());
                 }
@@ -82,14 +92,14 @@ namespace Peli
                 //////////////////////////////////////////////////////////
 
                 // Valitaan vihollinen
-                Console.WriteLine("Choose who to attack: ");
+                Console.SetCursorPosition(1, 8);
+                Console.Write("Who to attack: ");
 
                 int target = Convert.ToInt32(Console.ReadLine());
 
 
                 if (target > skeletonMage.id)
                 {
-                    Console.Clear();
                     Console.WriteLine("Incorrect id!");
                     target = Convert.ToInt32(Console.ReadLine());
                 }
@@ -120,8 +130,8 @@ namespace Peli
             {
                 target.hp -= attacker.dmg;
 
-                Console.SetCursorPosition(15, 12);
-                Console.WriteLine("------------ History ------------");
+                //Console.SetCursorPosition(15, 12);
+                //Console.WriteLine("------------ History ------------");
 
                 Console.SetCursorPosition(1, number1);
                 Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
@@ -132,23 +142,24 @@ namespace Peli
             {
                 if (i == humanWarrior.id)
                 {
-                    Console.Write("You chose: ");
+                    Console.SetCursorPosition(1, 1);
                     Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(humanWarrior.name);
+                    Console.WriteLine(humanWarrior.id + "." + humanWarrior.name);
+                    number2++;
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else if (i == humanArcher.id)
                 {
-                    Console.WriteLine("You chose: ");
+                    Console.SetCursorPosition(1, 2);
                     Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(humanArcher.name);
+                    Console.WriteLine(humanArcher.id + "." + humanArcher.name);
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
                 else if (i == humanMage.id)
                 {
-                    Console.WriteLine("You chose: " );
+                    Console.SetCursorPosition(1, 3);
                     Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(humanMage.name);
+                    Console.WriteLine(humanMage.id + "." + humanMage.name);
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
             }
