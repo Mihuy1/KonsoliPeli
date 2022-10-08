@@ -26,7 +26,7 @@ namespace Peli
 
             Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 80, 80, 4);
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, 5);
-            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 20, 6);
+            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, 6);
 
             player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
@@ -39,22 +39,14 @@ namespace Peli
             int number1 = 13;
             int number2 = 8;
             int numberEnemy = 1;
+            int numberPlayer = 1;
 
             string enemyHealth = "";
 
             while (true)
             {
                 numberEnemy = 1;
-                int numberPlayer = 1;
-
-                Console.SetCursorPosition(15, 0);
-                Console.WriteLine("[------------ Status ------------]");
-
-                Console.SetCursorPosition(15, 7);
-                Console.WriteLine("[------------ Message ------------]");
-
-                Console.SetCursorPosition(15, 12);
-                Console.WriteLine("------------ History ------------");
+                numberPlayer = 1;
 
                 if (CheckIfWon())
                 {
@@ -63,20 +55,11 @@ namespace Peli
 
                 CheckIfAlive();
 
-                foreach (Unit unit in player_army)
-                {
-                    Console.SetCursorPosition(1, numberPlayer);
-                    Console.WriteLine(unit.id + "." + unit.name + "(" + unit.hp + "/" + unit.maxHealth + ")");
-                    numberPlayer++;
-                }
+                // Listaa "Status", "Message" , "History"
+                PrintBase();
 
-                foreach (Unit unit in enemy_army)
-                {
-                    Console.SetCursorPosition(23, numberEnemy);
-                    Console.WriteLine(unit.id + "." + unit.name);
-                    CheckHealthEnemy(unit);
-                    numberEnemy++;
-                }
+                // Listaa pelaajan tiimin ja vihollisen tiimin
+                PrintArmies();
 
                 Console.ForegroundColor = ConsoleColor.White;
                 int attacker = Convert.ToInt32(Console.ReadLine());
@@ -121,14 +104,12 @@ namespace Peli
                 }
 
                 FightPlayer();
+
             }
 
             void FightEnemy(Unit attacker, Unit target)
             {
                 target.hp -= attacker.dmg;
-
-                //Console.SetCursorPosition(15, 12);
-                //Console.WriteLine("------------ History ------------");
 
                 Console.SetCursorPosition(1, number1);
                 Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
@@ -206,7 +187,7 @@ namespace Peli
                     enemyHealth = "(full health)";
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.SetCursorPosition(42, pos);
+                    Console.SetCursorPosition(43, pos);
 
                     Console.WriteLine(enemyHealth);
                     Console.ForegroundColor = ConsoleColor.White;
@@ -217,18 +198,18 @@ namespace Peli
                     enemyHealth = "(damaged)    ";
 
                     Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.SetCursorPosition(42, pos);
+                    Console.SetCursorPosition(43, pos);
 
                     Console.WriteLine(enemyHealth);
                     Console.ForegroundColor = ConsoleColor.White;
                 }
 
-                else if (unit.hp < unit.hp/2)
+                else if (unit.hp < 10)
                 {
-                    enemyHealth = "(barely alive      )";
+                    enemyHealth = "(barely alive  )";
 
                     Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.SetCursorPosition(42, pos);
+                    Console.SetCursorPosition(43, pos);
 
                     Console.WriteLine(enemyHealth);
                     Console.ForegroundColor = ConsoleColor.White;
@@ -242,6 +223,7 @@ namespace Peli
                     if (player_army[i].hp <= 0)
                     {
                         player_army.RemoveAt(i);
+                        Console.Clear();
                     }
                 }
 
@@ -250,8 +232,63 @@ namespace Peli
                     if (enemy_army[i].hp <= 0)
                     {
                         enemy_army.RemoveAt(i);
+                        Console.Clear();
                     }
                 }
+            }
+
+            void PrintBase()
+            {
+
+                Console.SetCursorPosition(15, 0);
+                Console.WriteLine("[------------ Status ------------]");
+
+                Console.SetCursorPosition(15, 7);
+                Console.WriteLine("[------------ Message ------------]");
+
+                Console.SetCursorPosition(15, 12);
+                Console.WriteLine("------------ History ------------");
+            }
+
+            void PrintArmies()
+            {
+                foreach (Unit unit in player_army)
+                {
+                    Console.SetCursorPosition(1, numberPlayer);
+                    Console.Write(unit.id + "." + unit.name);
+
+                    if (unit.hp == unit.maxHealth)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    } else if (unit.hp <= unit.maxHealth)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    } else if (unit.hp == unit.hp/2)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkYellow;
+                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    } else if (unit.hp == 10)
+                    {
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }    
+                    numberPlayer++;
+                }
+
+                foreach (Unit unit in enemy_army)
+                {
+                    Console.SetCursorPosition(24, numberEnemy);
+                    Console.WriteLine(unit.id + "." + unit.name);
+                    CheckHealthEnemy(unit);
+                    numberEnemy++;
+                }
+
             }
         }
 
