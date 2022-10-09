@@ -43,6 +43,8 @@ namespace Peli
 
             string enemyHealth = "";
 
+            Console.Write(player_army.IndexOf(humanMage));
+
             while (true)
             {
                 numberEnemy = 1;
@@ -90,6 +92,8 @@ namespace Peli
 
                 var attackerUnit = player_army[attacker - 1];
 
+                // FightEnemy(attackerUnit, enemy_army[target -+?])
+
                 if (target == skeletonWarrior.id)
                 {
                     FightEnemy(attackerUnit, skeletonWarrior);
@@ -103,7 +107,7 @@ namespace Peli
                     FightEnemy(attackerUnit, skeletonMage);
                 }
 
-                FightPlayer();
+                FightPlayer(); // Hyökkää pelaajaa
 
             }
 
@@ -118,28 +122,10 @@ namespace Peli
 
             void ChooseWhoWillAttack(int i)
             {
-                if (i == humanWarrior.id)
-                {
-                    Console.SetCursorPosition(1, 1);
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(humanWarrior.id + "." + humanWarrior.name);
-                    number2++;
-                    Console.BackgroundColor = ConsoleColor.Black;
-                }
-                else if (i == humanArcher.id)
-                {
-                    Console.SetCursorPosition(1, 2);
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(humanArcher.id + "." + humanArcher.name);
-                    Console.BackgroundColor = ConsoleColor.Black;
-                }
-                else if (i == humanMage.id)
-                {
-                    Console.SetCursorPosition(1, 3);
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(humanMage.id + "." + humanMage.name);
-                    Console.BackgroundColor = ConsoleColor.Black;
-                }
+                Console.SetCursorPosition(1, i);
+                Console.BackgroundColor = ConsoleColor.Green;
+                Console.WriteLine(player_army[i-1].id + "." + player_army[i-1].name);
+                Console.BackgroundColor = ConsoleColor.Black;
             }
 
             void FightPlayer()
