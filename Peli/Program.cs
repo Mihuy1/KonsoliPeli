@@ -43,6 +43,7 @@ namespace Peli
 
             string enemyHealth = "";
 
+
             Console.Write(player_army.IndexOf(humanMage));
 
             while (true)
@@ -82,6 +83,9 @@ namespace Peli
 
                 int target = Convert.ToInt32(Console.ReadLine());
 
+                ChooseEnemy(target);
+                PressAnyKey();
+
                 if (target > skeletonMage.id)
                 {
                     Console.WriteLine("Incorrect id!");
@@ -92,23 +96,9 @@ namespace Peli
 
                 var attackerUnit = player_army[attacker - 1];
 
-                // FightEnemy(attackerUnit, enemy_army[target -+?])
-
-                if (target == skeletonWarrior.id)
-                {
-                    FightEnemy(attackerUnit, skeletonWarrior);
-                }
-                else if (target == skeletonArcher.id)
-                {
-                    FightEnemy(attackerUnit, skeletonArcher);
-                }
-                else if (target == skeletonMage.id)
-                {
-                    FightEnemy(attackerUnit, skeletonMage);
-                }
+                FightEnemy(attackerUnit, enemy_army[target - 4]); // Hyökkää vihollista
 
                 FightPlayer(); // Hyökkää pelaajaa
-
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -125,6 +115,14 @@ namespace Peli
                 Console.SetCursorPosition(1, i);
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.WriteLine(player_army[i-1].id + "." + player_army[i-1].name);
+                Console.BackgroundColor = ConsoleColor.Black;
+            }
+
+            void ChooseEnemy(int i)
+            {
+                Console.SetCursorPosition(24, i-3);
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.Write(enemy_army[i-4].id + "." + enemy_army[i-4].name);
                 Console.BackgroundColor = ConsoleColor.Black;
             }
 
@@ -162,44 +160,6 @@ namespace Peli
                 }
 
                 return false;
-            }
-
-            void CheckHealthEnemy(Unit unit)
-            {
-                int pos = numberEnemy;
-
-                if (unit.hp == unit.maxHealth)
-                {
-                    enemyHealth = "(full health)";
-
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.SetCursorPosition(43, pos);
-
-                    Console.WriteLine(enemyHealth);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-
-                else if (unit.hp <= unit.maxHealth)
-                {
-                    enemyHealth = "(damaged)    ";
-
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.SetCursorPosition(43, pos);
-
-                    Console.WriteLine(enemyHealth);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
-
-                else if (unit.hp < 10)
-                {
-                    enemyHealth = "(barely alive  )";
-
-                    Console.ForegroundColor = ConsoleColor.DarkRed;
-                    Console.SetCursorPosition(43, pos);
-
-                    Console.WriteLine(enemyHealth);
-                    Console.ForegroundColor = ConsoleColor.White;
-                }
             }
 
             void CheckIfAlive()
@@ -271,9 +231,51 @@ namespace Peli
                 {
                     Console.SetCursorPosition(24, numberEnemy);
                     Console.WriteLine(unit.id + "." + unit.name);
-                    CheckHealthEnemy(unit);
+
+                    if (unit.hp == unit.maxHealth)
+                    {
+                        enemyHealth = "(full health)";
+
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.SetCursorPosition(43, numberEnemy);
+
+                        Console.WriteLine(enemyHealth);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    else if (unit.hp <= unit.maxHealth)
+                    {
+                        enemyHealth = "(damaged)    ";
+
+                        Console.ForegroundColor = ConsoleColor.Yellow;
+                        Console.SetCursorPosition(43, numberEnemy);
+
+                        Console.WriteLine(enemyHealth);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
+
+                    else if (unit.hp < 10)
+                    {
+                        enemyHealth = "(barely alive  )";
+
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.SetCursorPosition(43, numberEnemy);
+
+                        Console.WriteLine(enemyHealth);
+                        Console.ForegroundColor = ConsoleColor.White;
+                    }
                     numberEnemy++;
                 }
+
+            }
+
+            void PressAnyKey()
+            {
+                int i = 9;
+                Console.SetCursorPosition(1, i);
+                Console.WriteLine("Press any key to start fight....");
+                Console.ReadKey();
+                i++;
 
             }
         }
