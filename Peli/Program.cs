@@ -1,13 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Media;
-using System.Net.Security;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+﻿using System.Media;
 
 namespace Peli
 {
@@ -37,14 +28,10 @@ namespace Peli
             enemy_army.Add(skeletonMage);
 
             int number1 = 13;
-            int number2 = 8;
             int numberEnemy = 1;
             int numberPlayer = 1;
 
             string enemyHealth = "";
-
-
-            Console.Write(player_army.IndexOf(humanMage));
 
             while (true)
             {
@@ -69,6 +56,7 @@ namespace Peli
 
                 if (attacker > humanMage.id)
                 {
+                    Console.SetCursorPosition(1, 9);
                     Console.WriteLine("Incorrect id!");
                     attacker = Convert.ToInt32(Console.ReadLine());
                 }
@@ -82,7 +70,7 @@ namespace Peli
                 Console.Write("Who to attack: ");
 
                 int target = Convert.ToInt32(Console.ReadLine());
-
+                
                 ChooseEnemy(target);
                 PressAnyKey();
 
@@ -114,15 +102,15 @@ namespace Peli
             {
                 Console.SetCursorPosition(1, i);
                 Console.BackgroundColor = ConsoleColor.Green;
-                Console.WriteLine(player_army[i-1].id + "." + player_army[i-1].name);
+                Console.WriteLine(player_army[i - 1].id + "." + player_army[i - 1].name);
                 Console.BackgroundColor = ConsoleColor.Black;
             }
 
             void ChooseEnemy(int i)
             {
-                Console.SetCursorPosition(24, i-3);
+                Console.SetCursorPosition(24, i - 3);
                 Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.Write(enemy_army[i-4].id + "." + enemy_army[i-4].name);
+                Console.Write(enemy_army[i - 4].id + "." + enemy_army[i - 4].name);
                 Console.BackgroundColor = ConsoleColor.Black;
             }
 
@@ -208,22 +196,25 @@ namespace Peli
                         Console.ForegroundColor = ConsoleColor.Green;
                         Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                         Console.ForegroundColor = ConsoleColor.White;
-                    } else if (unit.hp <= unit.maxHealth)
+                    }
+                    else if (unit.hp <= unit.maxHealth)
                     {
                         Console.ForegroundColor = ConsoleColor.Yellow;
                         Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                         Console.ForegroundColor = ConsoleColor.White;
-                    } else if (unit.hp == unit.hp/2)
+                    }
+                    else if (unit.hp == unit.hp / 2)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkYellow;
                         Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                         Console.ForegroundColor = ConsoleColor.White;
-                    } else if (unit.hp == 10)
+                    }
+                    else if (unit.hp == 10)
                     {
                         Console.ForegroundColor = ConsoleColor.DarkRed;
                         Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                         Console.ForegroundColor = ConsoleColor.White;
-                    }    
+                    }
                     numberPlayer++;
                 }
 
