@@ -52,13 +52,20 @@ namespace Peli
                 PrintArmies();
 
                 Console.ForegroundColor = ConsoleColor.White;
-                int attacker = Convert.ToInt32(Console.ReadLine());
+                int attacker = Console.ReadKey().KeyChar;
+
+                if (attacker == 49)
+                    attacker = 1;
+                else if (attacker == 50)
+                    attacker = 2;
+                else if (attacker == 51)
+                    attacker = 3;
 
                 if (attacker > humanMage.id)
                 {
                     Console.SetCursorPosition(1, 9);
-                    Console.WriteLine("Incorrect id!");
-                    attacker = Convert.ToInt32(Console.ReadLine());
+                    Console.Write("Incorrect id!");
+                    attacker = Console.ReadKey().KeyChar;
                 }
 
                 ChooseWhoWillAttack(attacker);
@@ -67,17 +74,24 @@ namespace Peli
 
                 // Valitaan vihollinen
                 Console.SetCursorPosition(1, 8);
-                Console.Write("Who to attack: ");
+                Console.WriteLine("Who to attack: ");
 
-                int target = Convert.ToInt32(Console.ReadLine());
-                
+                int target = Console.ReadKey().KeyChar;
+
+                if (target == 52)
+                    target = 4;
+                else if (target == 53)
+                    target = 5;
+                else if (target == 54)
+                    target = 6;
+
                 ChooseEnemy(target);
                 PressAnyKey();
 
                 if (target > skeletonMage.id)
                 {
                     Console.WriteLine("Incorrect id!");
-                    target = Convert.ToInt32(Console.ReadLine());
+                    target = Console.ReadKey().KeyChar;
                 }
 
                 Console.ForegroundColor = ConsoleColor.White;
