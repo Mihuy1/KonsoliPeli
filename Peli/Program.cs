@@ -4,20 +4,6 @@ namespace Peli
 {
     public class Program
     {
-        enum TurnPlayer
-        {
-            humanWarrior,
-            humanArcher,
-            humanMage,
-        }
-
-        enum TurnEnemy
-        {
-            skeletonWarrior,
-            skeletonArcher,
-            skeletonMage
-        }
-
         public static void Main(string[] args)
         {
 
@@ -45,6 +31,9 @@ namespace Peli
             int number1 = 13;
             int numberEnemy = 1;
             int numberPlayer = 1;
+
+            bool humanW, humanA, humanM;
+            bool skeletonW, skeletonA, skeletonM;
 
             string enemyHealth = "";
 
