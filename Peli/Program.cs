@@ -295,6 +295,14 @@ namespace Peli
                 i++;
 
             }
+
+            void CheckIfEveryoneAttacked()
+            {
+                foreach (Unit unit in player_army)
+                {
+                    Console.WriteLine(unit.attacked);
+                }
+            }
         }
 
         private static void PlaySound_GameOver()
