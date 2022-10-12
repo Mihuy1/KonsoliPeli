@@ -12,13 +12,13 @@ namespace Peli
 
             Random random = new Random();
 
-            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 80, 80, 1);
-            Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, 2);
-            Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, 3);
+            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 80, 80, false, 1);
+            Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, false, 2);
+            Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, false, 3);
 
-            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 80, 80, 4);
-            Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, 5);
-            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, 6);
+            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 80, 80, false, 4);
+            Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, false, 5);
+            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, false, 6);
 
             player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
@@ -118,17 +118,25 @@ namespace Peli
 
             void ChooseWhoWillAttack(int i)
             {
-                Console.SetCursorPosition(1, i);
-                Console.BackgroundColor = ConsoleColor.Green;
-                Console.WriteLine(player_army[i - 1].id + "." + player_army[i - 1].name);
-                Console.BackgroundColor = ConsoleColor.Black;
+                Unit unit = player_army[i-1];
+
+                if (unit.attacked == false)
+                {
+                    Console.SetCursorPosition(1, i);
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.WriteLine(unit.id + "." + unit.name);
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    unit.attacked = true;
+                }
             }
 
             void ChooseEnemy(int i)
             {
+                Unit unit = enemy_army[i - 4];
+
                 Console.SetCursorPosition(24, i - 3);
                 Console.BackgroundColor = ConsoleColor.DarkRed;
-                Console.Write(enemy_army[i - 4].id + "." + enemy_army[i - 4].name);
+                Console.Write(unit.id + "." + unit.name);
                 Console.BackgroundColor = ConsoleColor.Black;
             }
 
@@ -137,8 +145,8 @@ namespace Peli
                 int playerIndex = random.Next(player_army.Count);
                 int enemyIndex = random.Next(enemy_army.Count);
 
-                Unit enemy = enemy_army[enemyIndex];
                 Unit player = player_army[playerIndex];
+                Unit enemy = enemy_army[enemyIndex];
 
                 player.hp -= enemy.dmg;
 
