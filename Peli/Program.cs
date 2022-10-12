@@ -4,8 +4,23 @@ namespace Peli
 {
     public class Program
     {
+        enum TurnPlayer
+        {
+            humanWarrior,
+            humanArcher,
+            humanMage,
+        }
+
+        enum TurnEnemy
+        {
+            skeletonWarrior,
+            skeletonArcher,
+            skeletonMage
+        }
+
         public static void Main(string[] args)
         {
+
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
 
