@@ -31,9 +31,13 @@ namespace Peli
             int number1 = 13;
             int numberEnemy = 1;
             int numberPlayer = 1;
+            int target;
+            int attacker;
 
-            bool humanW, humanA, humanM;
-            bool skeletonW, skeletonA, skeletonM;
+            bool humanW = false, humanA = false, humanM = false;
+            bool skeletonW = false, skeletonA = false, skeletonM = false;
+
+            bool allAttacked = false;
 
             string enemyHealth = "";
 
@@ -47,6 +51,8 @@ namespace Peli
                     break;
                 }
 
+                CheckIfEveryoneAttacked();
+
                 CheckIfAlive();
 
                 // Listaa "Status", "Message" , "History"
@@ -56,7 +62,7 @@ namespace Peli
                 PrintArmies();
 
                 Console.ForegroundColor = ConsoleColor.White;
-                int attacker = Console.ReadKey().KeyChar;
+                 attacker = Console.ReadKey().KeyChar;
 
                 if (attacker == 49)
                     attacker = 1;
@@ -80,7 +86,7 @@ namespace Peli
                 Console.SetCursorPosition(1, 8);
                 Console.WriteLine("Who to attack: ");
 
-                int target = Console.ReadKey().KeyChar;
+                target = Console.ReadKey().KeyChar;
 
                 if (target == 52)
                     target = 4;
@@ -109,11 +115,15 @@ namespace Peli
 
             void FightEnemy(Unit attacker, Unit target)
             {
-                target.hp -= attacker.dmg;
+                if (attacker.attacked == false)
+                {
+                    target.hp -= attacker.dmg;
 
-                Console.SetCursorPosition(1, number1);
-                Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
-                number1++;
+                    Console.SetCursorPosition(1, number1);
+                    Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
+                    number1++;
+                    attacker.attacked = true;
+                }
             }
 
             void ChooseWhoWillAttack(int i)
@@ -126,7 +136,26 @@ namespace Peli
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.WriteLine(unit.id + "." + unit.name);
                     Console.BackgroundColor = ConsoleColor.Black;
-                    unit.attacked = true;
+                } else
+                {
+                    Console.SetCursorPosition(0, 10);
+                    Console.WriteLine(unit.name + " already attacked");
+
+                    attacker = Console.ReadKey().KeyChar;
+
+                    if (attacker == 49)
+                        attacker = 1;
+                    else if (attacker == 50)
+                        attacker = 2;
+                    else if (attacker == 51)
+                        attacker = 3;
+
+                    Unit unit2 = player_army[attacker - 1];
+
+                    Console.SetCursorPosition(1, i + 1);
+                    Console.BackgroundColor = ConsoleColor.Green;
+                    Console.WriteLine(unit2.id + "." + unit2.name);
+                    Console.BackgroundColor = ConsoleColor.Black;
                 }
             }
 
@@ -289,19 +318,68 @@ namespace Peli
             void PressAnyKey()
             {
                 int i = 9;
-                Console.SetCursorPosition(1, i);
+                Console.SetCursorPosition(0, i);
                 Console.WriteLine("Press any key to start fight....");
                 Console.ReadKey();
+                Console.SetCursorPosition(0, i + 1);
+                Console.WriteLine("        ");
                 i++;
 
             }
 
-            void CheckIfEveryoneAttacked()
+            bool CheckIfEveryoneAttacked()
             {
                 foreach (Unit unit in player_army)
                 {
-                    Console.WriteLine(unit.attacked);
+                    if (unit.attacked == true)
+                    {
+                        if (unit.id == 1)
+                            humanW = true;
+
+                        else if (unit.id == 2)
+                            humanA = true;
+                        else if (unit.id == 3)
+                        {
+                            humanM = true;
+                        }
+                    }
                 }
+                foreach (Unit unit in enemy_army)
+                {
+                    if (unit.attacked == true)
+                    {
+                        if (unit.id == 4)
+                            skeletonW = true;
+                        else if (unit.id == 5)
+                            skeletonA = true;
+                        else if (unit.id == 5)
+                            skeletonM = true;
+                    }
+                }
+
+                if (humanA == true && humanW == true && humanM == true)
+                {
+                    humanA = false; humanW = false; humanA = false;
+                    return true;
+                }
+                return false;
+            }
+
+            void AsciiToInteger(int i)
+            {
+
+                if (i == 49)
+                    i = 1;
+                else if (i == 50)
+                    i = 2;
+                else if (i == 51)
+                    i = 3;
+                else if (i == 52)
+                    i = 4;
+                else if (i == 53)
+                    i = 5;
+                else if (i == 54)
+                    i = 6;
             }
         }
 
