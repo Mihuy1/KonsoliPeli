@@ -12,11 +12,11 @@ namespace Peli
 
             Random random = new Random();
 
-            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 80, 80, false, 1);
+            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 60, 60, false, 1);
             Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, false, 2);
             Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, false, 3);
 
-            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 80, 80, false, 4);
+            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 60, 60, false, 4);
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, false, 5);
             Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, false, 6);
 
