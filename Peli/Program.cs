@@ -33,6 +33,7 @@ namespace Peli
             int numberPlayer = 1;
             int target;
             int attacker;
+            int count = 0;
 
             bool humanW = false, humanA = false, humanM = false;
 
@@ -42,6 +43,12 @@ namespace Peli
             {
                 numberEnemy = 1;
                 numberPlayer = 1;
+
+                if (count > 2)
+                {
+                    CheckIfEveryoneAttacked();
+                    Console.Clear();
+                }
 
                 if (CheckIfWon())
                 {
@@ -95,6 +102,9 @@ namespace Peli
                 FightEnemy(attackerUnit, enemy_army[target - 4]);
 
                 FightPlayer();
+
+                count++;
+
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -304,31 +314,13 @@ namespace Peli
 
             } // Odottaa kun pelaaja painaa jotain nappia jotta taistelu alkaisi ja pistää sen oikeseen paikkaan.
 
-            bool CheckIfEveryoneAttacked()
+            void CheckIfEveryoneAttacked()
             {
-                foreach (Unit unit in player_army)
+                foreach(Unit unit in player_army)
                 {
                     if (unit.attacked == true)
-                    {
-                        if (unit.id == 1)
-                            humanW = true;
-
-                        else if (unit.id == 2)
-                            humanA = true;
-                        else if (unit.id == 3)
-                        {
-                            humanM = true;
-                        }
-                    }
+                        unit.attacked = false;
                 }
-                foreach (Unit unit in enemy_army)
-
-                if (humanA == true && humanW == true && humanM == true)
-                {
-                    humanA = false; humanW = false; humanA = false;
-                    return true;
-                }
-                return false;
             } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 
             void AsciiToInteger(int i)
