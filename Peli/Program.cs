@@ -35,9 +35,6 @@ namespace Peli
             int attacker;
 
             bool humanW = false, humanA = false, humanM = false;
-            bool skeletonW = false, skeletonA = false, skeletonM = false;
-
-            bool allAttacked = false;
 
             string enemyHealth = "";
 
@@ -55,21 +52,13 @@ namespace Peli
 
                 CheckIfAlive();
 
-                // Listaa "Status", "Message" , "History"
                 PrintBase();
-
-                // Listaa pelaajan tiimin ja vihollisen tiimin
                 PrintArmies();
 
+                // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
                  attacker = Console.ReadKey().KeyChar;
-
-                if (attacker == 49)
-                    attacker = 1;
-                else if (attacker == 50)
-                    attacker = 2;
-                else if (attacker == 51)
-                    attacker = 3;
+                AsciiToInteger(attacker);
 
                 if (attacker > humanMage.id)
                 {
@@ -78,9 +67,9 @@ namespace Peli
                     attacker = Console.ReadKey().KeyChar;
                 }
 
-                ChooseWhoWillAttack(attacker);
+                ChooseWhoWillAttack(player_army[attacker-1]);
 
-                //////////////////////////////////////////////////////////
+                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 // Valitaan vihollinen
                 Console.SetCursorPosition(1, 8);
@@ -88,15 +77,10 @@ namespace Peli
 
                 target = Console.ReadKey().KeyChar;
 
-                if (target == 52)
-                    target = 4;
-                else if (target == 53)
-                    target = 5;
-                else if (target == 54)
-                    target = 6;
+                AsciiToInteger(target);
 
-                ChooseEnemy(target);
-                PressAnyKey();
+                ChooseEnemy(enemy_army[target - 4]);
+                PressAnyKeyToStart();
 
                 if (target > skeletonMage.id)
                 {
@@ -108,9 +92,9 @@ namespace Peli
 
                 var attackerUnit = player_army[attacker - 1];
 
-                FightEnemy(attackerUnit, enemy_army[target - 4]); // Hyökkää vihollista
+                FightEnemy(attackerUnit, enemy_army[target - 4]);
 
-                FightPlayer(); // Hyökkää pelaajaa
+                FightPlayer();
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -124,15 +108,13 @@ namespace Peli
                     number1++;
                     attacker.attacked = true;
                 }
-            }
+            } // Hyökkää vihollista
 
-            void ChooseWhoWillAttack(int i)
+            void ChooseWhoWillAttack(Unit unit)
             {
-                Unit unit = player_army[i-1];
-
                 if (unit.attacked == false)
                 {
-                    Console.SetCursorPosition(1, i);
+                    Console.SetCursorPosition(1, unit.id);
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.WriteLine(unit.id + "." + unit.name);
                     Console.BackgroundColor = ConsoleColor.Black;
@@ -143,31 +125,26 @@ namespace Peli
 
                     attacker = Console.ReadKey().KeyChar;
 
-                    if (attacker == 49)
-                        attacker = 1;
-                    else if (attacker == 50)
-                        attacker = 2;
-                    else if (attacker == 51)
-                        attacker = 3;
+                    AsciiToInteger(attacker);
 
                     Unit unit2 = player_army[attacker - 1];
 
-                    Console.SetCursorPosition(1, i + 1);
+                    Console.SetCursorPosition(1, unit.id + 1);
                     Console.BackgroundColor = ConsoleColor.Green;
                     Console.WriteLine(unit2.id + "." + unit2.name);
                     Console.BackgroundColor = ConsoleColor.Black;
                 }
-            }
+            } // Valitsee kuka hyökkää
 
-            void ChooseEnemy(int i)
+            void ChooseEnemy(Unit unit)
             {
-                Unit unit = enemy_army[i - 4];
+                //Unit unit = enemy_army[i - 4];
 
-                Console.SetCursorPosition(24, i - 3);
+                Console.SetCursorPosition(24, unit.id - 3);
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.Write(unit.id + "." + unit.name);
                 Console.BackgroundColor = ConsoleColor.Black;
-            }
+            } // Valitaan ketä hyökätään
 
             void FightPlayer()
             {
@@ -182,7 +159,7 @@ namespace Peli
                 Console.SetCursorPosition(1, number1);
                 Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
                 number1++;
-            }
+            } // Taistellaan pelaaja vastaan
 
             bool CheckIfWon()
             {
@@ -203,7 +180,7 @@ namespace Peli
                 }
 
                 return false;
-            }
+            } // Tarkisetaan onko pelaaja/vihollinen voittanut
 
             void CheckIfAlive()
             {
@@ -224,7 +201,7 @@ namespace Peli
                         Console.Clear();
                     }
                 }
-            }
+            } // Tarkistetaan jos joku on kuollut = siivotaan konsoli
 
             void PrintBase()
             {
@@ -237,7 +214,7 @@ namespace Peli
 
                 Console.SetCursorPosition(15, 12);
                 Console.WriteLine("------------ History ------------");
-            }
+            } // Printtaa Status, Message, History
 
             void PrintArmies()
             {
@@ -313,9 +290,9 @@ namespace Peli
                     numberEnemy++;
                 }
 
-            }
+            } // Printtaa pelaajan- ja vihollisen armeijan
 
-            void PressAnyKey()
+            void PressAnyKeyToStart()
             {
                 int i = 9;
                 Console.SetCursorPosition(0, i);
@@ -325,7 +302,7 @@ namespace Peli
                 Console.WriteLine("        ");
                 i++;
 
-            }
+            } // Odottaa kun pelaaja painaa jotain nappia jotta taistelu alkaisi ja pistää sen oikeseen paikkaan.
 
             bool CheckIfEveryoneAttacked()
             {
@@ -345,17 +322,6 @@ namespace Peli
                     }
                 }
                 foreach (Unit unit in enemy_army)
-                {
-                    if (unit.attacked == true)
-                    {
-                        if (unit.id == 4)
-                            skeletonW = true;
-                        else if (unit.id == 5)
-                            skeletonA = true;
-                        else if (unit.id == 5)
-                            skeletonM = true;
-                    }
-                }
 
                 if (humanA == true && humanW == true && humanM == true)
                 {
@@ -363,24 +329,26 @@ namespace Peli
                     return true;
                 }
                 return false;
-            }
+            } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 
             void AsciiToInteger(int i)
             {
-
+                // Pelaaja
                 if (i == 49)
-                    i = 1;
+                    attacker = 1;
                 else if (i == 50)
-                    i = 2;
+                    attacker = 2;
                 else if (i == 51)
-                    i = 3;
+                    attacker = 3;
+
+                // Vihollinen
                 else if (i == 52)
-                    i = 4;
+                    target = 4;
                 else if (i == 53)
-                    i = 5;
+                    target = 5;
                 else if (i == 54)
-                    i = 6;
-            }
+                    target = 6;
+            } // Converttaa asciista oikeisiin numeroihin.
         }
 
         private static void PlaySound_GameOver()
