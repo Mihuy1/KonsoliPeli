@@ -35,8 +35,6 @@ namespace Peli
             int attacker;
             int count = 0;
 
-            bool humanW = false, humanA = false, humanM = false;
-
             string enemyHealth = "";
 
             while (true)
