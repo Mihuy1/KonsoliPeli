@@ -6,7 +6,6 @@ namespace Peli
     {
         public static void Main(string[] args)
         {
-
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
 
@@ -62,7 +61,8 @@ namespace Peli
 
                 // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
-                 attacker = Console.ReadKey().KeyChar;
+                Console.SetCursorPosition(1, 8);
+                attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
 
                 if (attacker > humanMage.id)
@@ -72,15 +72,22 @@ namespace Peli
                     attacker = Console.ReadKey().KeyChar;
                 }
 
-                ChooseWhoWillAttack(player_army[attacker-1]);
+                if (player_army.Count == 2)
+                    ChooseWhoWillAttack(player_army[attacker]);
+
+                else
+                ChooseWhoWillAttack(player_army[attacker - 1]);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
                 // Valitaan vihollinen
-                Console.SetCursorPosition(1, 8);
+                Console.SetCursorPosition(1, 9);
                 Console.WriteLine("Who to attack: ");
 
+                Console.SetCursorPosition(16, 9);
                 target = Console.ReadKey().KeyChar;
+                Console.SetCursorPosition(16, 9);
+                Console.Write(" ");
 
                 AsciiToInteger(target);
 
@@ -103,6 +110,8 @@ namespace Peli
 
                 count++;
 
+                if (count > 3)
+                    count = 0;
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -112,7 +121,9 @@ namespace Peli
                     target.hp -= attacker.dmg;
 
                     Console.SetCursorPosition(1, number1);
+                    Console.ForegroundColor = ConsoleColor.DarkCyan;
                     Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
+                    Console.ForegroundColor = ConsoleColor.White;
                     number1++;
                     attacker.attacked = true;
                 }
@@ -131,6 +142,7 @@ namespace Peli
                     Console.SetCursorPosition(0, 10);
                     Console.WriteLine(unit.name + " already attacked");
 
+                    Console.SetCursorPosition(8, 16);
                     attacker = Console.ReadKey().KeyChar;
 
                     AsciiToInteger(attacker);
@@ -165,7 +177,9 @@ namespace Peli
                 player.hp -= enemy.dmg;
 
                 Console.SetCursorPosition(1, number1);
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
+                Console.ForegroundColor = ConsoleColor.White;
                 number1++;
             } // Taistellaan pelaaja vastaan
 
@@ -302,7 +316,7 @@ namespace Peli
 
             void PressAnyKeyToStart()
             {
-                int i = 9;
+                int i = 10;
                 Console.SetCursorPosition(0, i);
                 Console.WriteLine("Press any key to start fight....");
                 Console.ReadKey();
@@ -314,10 +328,19 @@ namespace Peli
 
             void CheckIfEveryoneAttacked()
             {
-                foreach(Unit unit in player_army)
+                int i = 0;
+               foreach (Unit unit in player_army)
                 {
                     if (unit.attacked == true)
+                        i++;
+                }
+
+               foreach (Unit unit in player_army)
+                {
+                    if (i == 3)
+                    {
                         unit.attacked = false;
+                    }
                 }
             } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 
