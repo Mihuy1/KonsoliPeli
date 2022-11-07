@@ -62,6 +62,8 @@ namespace Peli
                 // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(1, 8);
+                Console.WriteLine("Who will attack: ");
+                Console.SetCursorPosition(18, 8);
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
 
@@ -86,8 +88,6 @@ namespace Peli
 
                 Console.SetCursorPosition(16, 9);
                 target = Console.ReadKey().KeyChar;
-                Console.SetCursorPosition(16, 9);
-                Console.Write(" ");
 
                 AsciiToInteger(target);
 
@@ -112,6 +112,12 @@ namespace Peli
 
                 if (count > 3)
                     count = 0;
+
+                Console.SetCursorPosition(18, 8);
+                Console.WriteLine("  ");
+
+                Console.SetCursorPosition(16, 9);
+                Console.Write("  ");
             }
 
             void FightEnemy(Unit attacker, Unit target)
