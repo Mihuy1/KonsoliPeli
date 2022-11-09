@@ -368,6 +368,11 @@ namespace Peli
                 else if (i == 54)
                     target = 6;
             } // Converttaa asciista oikeisiin numeroihin.
+
+            void Undo(Unit unit)
+            {
+                
+            }
         }
 
         private static void PlaySound_GameOver()
