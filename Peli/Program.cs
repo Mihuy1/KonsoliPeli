@@ -45,7 +45,7 @@ namespace Peli
                 numberEnemy = 1;
                 numberPlayer = 1;
 
-                warrior.Add(humanWarrior.hp);   // Move to when player is attacked and then don't have to negate 1 from lists probably
+                warrior.Add(humanWarrior.hp);
                 archer.Add(humanArcher.hp);
                 mage.Add(humanMage.hp);
 
@@ -117,11 +117,6 @@ namespace Peli
 
                 FightPlayer();
 
-                count++;
-
-                if (count > 3)
-                    count = 0;
-
                 Console.SetCursorPosition(18, 8);
                 Console.WriteLine("  ");
 
@@ -129,10 +124,12 @@ namespace Peli
                 Console.Write("  ");
                 counter++;
 
-                if (count > 2)
-                {
+                count++;
+
+                if (count > 3)
+                    count = 0;
+
                     Undo();
-                }
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -189,6 +186,7 @@ namespace Peli
 
             void FightPlayer()
             {
+                bool enemyIsAttacking = true;
                 int playerIndex = random.Next(player_army.Count);
                 int enemyIndex = random.Next(enemy_army.Count);
 
@@ -202,6 +200,7 @@ namespace Peli
                 Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
                 Console.ForegroundColor = ConsoleColor.White;
                 number1++;
+                enemyIsAttacking = false;
             } // Taistellaan pelaaja vastaan
 
             bool CheckIfWon()
