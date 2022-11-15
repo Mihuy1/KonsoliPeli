@@ -8,6 +8,9 @@ namespace Peli
         {
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
+            List<int> warrior = new List<int>();
+            List<int> archer = new List<int>();
+            List<int> mage = new List<int>();
 
             Random random = new Random();
 
@@ -33,6 +36,7 @@ namespace Peli
             int target;
             int attacker;
             int count = 0;
+            int counter = 0;
 
             string enemyHealth = "";
 
@@ -40,6 +44,10 @@ namespace Peli
             {
                 numberEnemy = 1;
                 numberPlayer = 1;
+
+                warrior.Add(humanWarrior.hp);   // Move to when player is attacked and then don't have to negate 1 from lists probably
+                archer.Add(humanArcher.hp);
+                mage.Add(humanMage.hp);
 
                 if (count > 2)
                 {
@@ -58,6 +66,7 @@ namespace Peli
 
                 PrintBase();
                 PrintArmies();
+
 
                 // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
@@ -118,6 +127,12 @@ namespace Peli
 
                 Console.SetCursorPosition(16, 9);
                 Console.Write("  ");
+                counter++;
+
+                if (count > 2)
+                {
+                    Undo();
+                }
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -369,9 +384,27 @@ namespace Peli
                     target = 6;
             } // Converttaa asciista oikeisiin numeroihin.
 
-            void Undo(Unit unit)
+            void Undo()
             {
-                
+                if (count > 2)
+                {
+                    Console.SetCursorPosition(2, 20);
+                    Console.WriteLine(warrior[counter - 1]);
+                    Console.SetCursorPosition(2, 21);
+                    Console.WriteLine(archer[counter - 1]);
+                    Console.SetCursorPosition(2, 22);
+                    Console.WriteLine(mage[counter - 1]);
+                }
+
+                Console.WriteLine("To Undo press: ctrl + z");
+                ConsoleKeyInfo consoleRead = Console.ReadKey();
+
+                if (consoleRead.Key == ConsoleKey.Z)
+                {
+                    humanWarrior.hp = warrior[counter - 1];
+                    humanArcher.hp = archer[counter - 1];
+                    humanMage.hp = mage[counter - 1];
+                }
             }
         }
 
