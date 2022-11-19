@@ -83,11 +83,8 @@ namespace Peli
                     attacker = Console.ReadKey().KeyChar;
                 }
 
-                if (player_army.Count == 2)
-                    ChooseWhoWillAttack(player_army[attacker]);
-
-                else
                 ChooseWhoWillAttack(player_army[attacker - 1]);
+
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -99,8 +96,9 @@ namespace Peli
                 target = Console.ReadKey().KeyChar;
 
                 AsciiToInteger(target);
+                if (enemy_army.Count == 3)
+                    ChooseEnemy(enemy_army[target - 4]);
 
-                ChooseEnemy(enemy_army[target - 4]);
                 PressAnyKeyToStart();
 
                 if (target > skeletonMage.id)
@@ -113,7 +111,8 @@ namespace Peli
 
                 var attackerUnit = player_army[attacker - 1];
 
-                FightEnemy(attackerUnit, enemy_army[target - 4]);
+                if (enemy_army.Count == 3)
+                    FightEnemy(attackerUnit, enemy_army[target - 4]);;
 
                 FightPlayer();
 
@@ -128,8 +127,6 @@ namespace Peli
 
                 if (count > 3)
                     count = 0;
-
-                    Undo();
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -344,6 +341,11 @@ namespace Peli
                 Console.WriteLine("        ");
                 i++;
 
+                if (i > 11)
+                {
+                    Console.SetCursorPosition(5, 15);
+                    Undo();
+                }
             } // Odottaa kun pelaaja painaa jotain nappia jotta taistelu alkaisi ja pistää sen oikeseen paikkaan.
 
             void CheckIfEveryoneAttacked()
