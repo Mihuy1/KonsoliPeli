@@ -1,4 +1,5 @@
-﻿using System.Media;
+﻿using System.Diagnostics;
+using System.Media;
 
 namespace Peli
 {
@@ -37,6 +38,8 @@ namespace Peli
             int attacker;
             int count = 0;
             string enemyHealth = "";
+
+            int fuckingTest = 20;
 
             while (true)
             {
@@ -108,8 +111,7 @@ namespace Peli
 
                 var attackerUnit = player_army[attacker - 1];
 
-                if (enemy_army.Count == 3)
-                    FightEnemy(attackerUnit, enemy_army[target - 4]);;
+                FightEnemy(attackerUnit, enemy_army[target - 4]);;
 
                 FightPlayer();
 
@@ -135,9 +137,6 @@ namespace Peli
                 Console.ForegroundColor = ConsoleColor.White;
                 number1++;
                 attacker.attacked = true;
-
-                Console.SetCursorPosition(1, 30);
-                Console.WriteLine("attacked!");
             } // Hyökkää vihollista
 
             void ChooseWhoWillAttack(Unit unit)
@@ -190,8 +189,6 @@ namespace Peli
                 Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
                 Console.ForegroundColor = ConsoleColor.White;
                 number1++;
-                Console.SetCursorPosition(1, 20);
-                Console.WriteLine(number1);
             } // Taistellaan pelaaja vastaan
 
             bool CheckIfWon()
