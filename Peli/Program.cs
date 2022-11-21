@@ -13,6 +13,10 @@ namespace Peli
             List<int> archer = new List<int>();
             List<int> mage = new List<int>();
 
+            List<int> eWarrior = new List<int>();
+            List<int> eArcher = new List<int>();
+            List<int> eMage = new List<int>();
+
             Random random = new Random();
 
             Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 60, 60, false, 1);
@@ -37,9 +41,8 @@ namespace Peli
             int target;
             int attacker;
             int count = 0;
+            int counter = 0;
             string enemyHealth = "";
-
-            int fuckingTest = 20;
 
             while (true)
             {
@@ -50,11 +53,13 @@ namespace Peli
                 warrior.Add(humanWarrior.hp);
                 archer.Add(humanArcher.hp);
                 mage.Add(humanMage.hp);
+                eWarrior.Add(skeletonWarrior.hp);
+                eArcher.Add(skeletonArcher.hp);
+                eMage.Add(skeletonMage.hp);
 
                 if (count > 2)
                 {
                     CheckIfEveryoneAttacked();
-                    //Console.Clear();
                 }
 
                 if (CheckIfWon())
@@ -122,9 +127,15 @@ namespace Peli
                 Console.Write("  ");
 
                 count++;
+                counter++;
 
                 if (count > 3)
                     count = 0;
+
+                if (warrior.Count > 2)
+                {
+                    Undo();
+                }
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -381,15 +392,25 @@ namespace Peli
 
             void Undo()
             {
+                Console.SetCursorPosition(1, 30);
+                Console.Write(mage[counter - 2]);
 
+                Console.SetCursorPosition(0, number1 + 1);
                 Console.WriteLine("To Undo press: ctrl + z");
                 ConsoleKeyInfo consoleRead = Console.ReadKey();
 
                 if (consoleRead.Key == ConsoleKey.Z)
                 {
-                    humanWarrior.hp = warrior[warrior.Count - 1];
-                    humanArcher.hp = archer[archer.Count - 1];
-                    humanMage.hp = mage[mage.Count - 1];
+                    humanWarrior.hp = warrior[counter - 2];
+                    humanArcher.hp = archer[counter - 2];
+                    humanMage.hp = mage[counter - 2];
+
+                    skeletonWarrior.hp = warrior[counter - 2];
+                    skeletonArcher.hp = eArcher[counter - 2];
+                    skeletonMage.hp = eMage[counter - 2];
+
+                    Console.SetCursorPosition(0, number1 + 1);
+                    Console.Write("                                ");
                 }
             }
         }
