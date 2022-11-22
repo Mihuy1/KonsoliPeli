@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Media;
+using System.Security.Cryptography;
+using System.Windows.Input;
 
 namespace Peli
 {
@@ -398,8 +400,9 @@ namespace Peli
                 Console.SetCursorPosition(0, number1 + 1);
                 Console.WriteLine("To Undo press: ctrl + z");
                 ConsoleKeyInfo consoleRead = Console.ReadKey();
+                ConsoleModifiers modifiers = consoleRead.Modifiers;
 
-                if (consoleRead.Key == ConsoleKey.Z)
+                if (modifiers == ConsoleModifiers.Control)
                 {
                     humanWarrior.hp = warrior[counter - 2];
                     humanArcher.hp = archer[counter - 2];
