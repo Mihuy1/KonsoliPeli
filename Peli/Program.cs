@@ -9,6 +9,11 @@ namespace Peli
     {
         public static void Main(string[] args)
         {
+            StartWindow.Start();
+
+            Console.WriteLine("Press any button to start game!");
+            Console.ReadKey();
+
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
             List<int> warrior = new List<int>();
