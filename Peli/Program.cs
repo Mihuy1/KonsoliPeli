@@ -49,7 +49,10 @@ namespace Peli
             int attacker;
             int count = 0;
             int counter = 0;
+
             string enemyHealth = "";
+            bool player = false;
+            bool enemy = false;
 
             while (true)
             {
@@ -71,7 +74,10 @@ namespace Peli
 
                 if (CheckIfWon())
                 {
-                    break;
+                    if (player)
+                        EndWindow.PlayerWon();
+                    else if (enemy)
+                        EndWindow.EnemyWon();
                 }
 
                 CheckIfEveryoneAttacked();
@@ -211,6 +217,7 @@ namespace Peli
 
             bool CheckIfWon()
             {
+
                 if (player_army.Count == 0)
                 {
                     Console.WriteLine("Enemy won!");
@@ -218,12 +225,14 @@ namespace Peli
                     SoundPlayer my_wave_file = new SoundPlayer("Sounds/GameOver.wav");
                     my_wave_file.PlaySync();
 
+                    enemy = true;
                     return true;
 
                 }
                 else if (enemy_army.Count == 0)
                 {
                     Console.WriteLine("Player won!");
+                    player = true;
                     return true;
                 }
 
