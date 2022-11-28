@@ -145,10 +145,10 @@ namespace Peli
                 if (count > 3)
                     count = 0;
 
-                if (warrior.Count > 2)
+                /*if (warrior.Count > 2)
                 {
                     Undo();
-                }
+                }*/
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -168,9 +168,30 @@ namespace Peli
                 if (unit.attacked == false)
                 {
                     Console.SetCursorPosition(1, unit.id);
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(unit.id + "." + unit.name);
-                    Console.BackgroundColor = ConsoleColor.Black;
+
+                    if (unit == humanWarrior)
+                    {
+                        Console.SetCursorPosition(1, 1);
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.WriteLine(unit.id + "." + unit.name);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
+
+                    if (unit == humanArcher)
+                    {
+                        Console.SetCursorPosition(1, 2);
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.WriteLine(unit.id + "." + unit.name);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
+
+                    if (unit == humanMage)
+                    {
+                        Console.SetCursorPosition(1, 3);
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.WriteLine(unit.id + "." + unit.name);
+                        Console.BackgroundColor = ConsoleColor.Black;
+                    }
                 } else
                 {
                     Console.SetCursorPosition(0, 10);
