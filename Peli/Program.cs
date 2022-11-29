@@ -56,7 +56,6 @@ namespace Peli
 
             while (true)
             {
-
                 numberEnemy = 1;
                 numberPlayer = 1;
 
@@ -67,13 +66,12 @@ namespace Peli
                 eArcher.Add(skeletonArcher.hp);
                 eMage.Add(skeletonMage.hp);
 
-                if (count > 2)
-                {
-                    CheckIfEveryoneAttacked();
-                }
+                CheckIfEveryoneAttacked();
 
                 if (CheckIfWon())
                 {
+                    Console.WriteLine("Joku voitti");
+
                     if (player)
                         EndWindow.PlayerWon();
                     else if (enemy)
@@ -86,7 +84,6 @@ namespace Peli
 
                 PrintBase();
                 PrintArmies();
-
 
                 // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
@@ -175,22 +172,43 @@ namespace Peli
                         Console.BackgroundColor = ConsoleColor.Green;
                         Console.WriteLine(unit.id + "." + unit.name);
                         Console.BackgroundColor = ConsoleColor.Black;
+
                     }
 
                     if (unit == humanArcher)
                     {
-                        Console.SetCursorPosition(1, 2);
-                        Console.BackgroundColor = ConsoleColor.Green;
-                        Console.WriteLine(unit.id + "." + unit.name);
-                        Console.BackgroundColor = ConsoleColor.Black;
+                        
+                         if (humanWarrior.hp <= 0)
+                        {
+                            Console.SetCursorPosition(1, 1);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                        } else
+                        {
+                            Console.SetCursorPosition(1, 2);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                        }
+
                     }
 
                     if (unit == humanMage)
                     {
-                        Console.SetCursorPosition(1, 3);
-                        Console.BackgroundColor = ConsoleColor.Green;
-                        Console.WriteLine(unit.id + "." + unit.name);
-                        Console.BackgroundColor = ConsoleColor.Black;
+                        if (humanArcher.hp <= 0 || humanWarrior.hp <= 0)
+                        {
+                            Console.SetCursorPosition(1, 2);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                        } else
+                        {
+                            Console.SetCursorPosition(1, 3);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                        }
                     }
                 } else
                 {
@@ -202,12 +220,8 @@ namespace Peli
 
                     AsciiToInteger(attacker);
 
-                    Unit unit2 = player_army[attacker - 1];
+                    ChooseWhoWillAttack(player_army[attacker - 1]);
 
-                    Console.SetCursorPosition(1, unit.id + 1);
-                    Console.BackgroundColor = ConsoleColor.Green;
-                    Console.WriteLine(unit2.id + "." + unit2.name);
-                    Console.BackgroundColor = ConsoleColor.Black;
                 }
             } // Valitsee kuka hyökkää
 
@@ -269,7 +283,7 @@ namespace Peli
                         player_army.RemoveAt(i);
                         Console.SetCursorPosition(1, player_army[i-1].id);
                         Console.WriteLine("Dead");
-                        //Console.Clear();
+                        Console.Clear();
                     }
                 }
 
@@ -401,7 +415,7 @@ namespace Peli
 
                foreach (Unit unit in player_army)
                 {
-                    if (i == 3)
+                    if (i == player_army.Count)
                     {
                         unit.attacked = false;
                     }
