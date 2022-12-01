@@ -16,6 +16,10 @@ namespace Peli
             
             Console.SetCursorPosition((Console.WindowWidth - title.Length) / 2, Console.CursorTop);
             Console.WriteLine(title);
+
+
+            Console.WriteLine("Press any button to start game!");
+            Console.ReadKey();
         }
     }
 }

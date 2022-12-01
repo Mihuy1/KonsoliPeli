@@ -429,6 +429,14 @@ namespace Peli
                         unit.attacked = false;
                     }
                 }
+
+               if (player_army.Count == 1)
+                {
+                    foreach (Unit unit in player_army)
+                    {
+                        unit.attacked = false;
+                    }
+                }
             } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 
             void AsciiToInteger(int i)
