@@ -144,8 +144,8 @@ namespace Peli
                 if (count > 3)
                     count = 0;
 
-                if (warrior.Count > 0)
-                {
+                //if (warrior.Count >= 0)
+                //{
                     Console.SetCursorPosition(0, number1 + 1);
                     Console.WriteLine("To Undo press: ctrl + z");
 
@@ -158,7 +158,7 @@ namespace Peli
                     {
                         continue;
                     }
-                }
+                //}
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -473,13 +473,13 @@ namespace Peli
             {
                 if (warrior.Count > 0)
                 {
-                    humanWarrior.hp = warrior[counter - 1];
-                    humanArcher.hp = archer[counter - 1];
-                    humanMage.hp = mage[counter - 1];
+                    humanWarrior.hp = warrior[warrior.Count - 1];
+                    humanArcher.hp = archer[archer.Count - 1];
+                    humanMage.hp = mage[mage.Count - 1];
 
-                    skeletonWarrior.hp = warrior[counter - 1];
-                    skeletonArcher.hp = eArcher[counter - 1];
-                    skeletonMage.hp = eMage[counter - 1];
+                    skeletonWarrior.hp = eWarrior[eWarrior.Count - 1];
+                    skeletonArcher.hp = eArcher[eArcher.Count - 1];
+                    skeletonMage.hp = eMage[eMage.Count - 1];
                 } 
             }
         }
