@@ -1,8 +1,12 @@
-﻿namespace Peli
+﻿using System;
+using System.Diagnostics.Metrics;
+using System.Reflection;
+using System.Threading;
+
+namespace Peli
 {
     public class Unit
     {
-
         public string name;
         public int dmg;
         public int hp;

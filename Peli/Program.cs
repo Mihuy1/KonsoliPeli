@@ -16,6 +16,7 @@ namespace Peli
 
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
+
             List<int> warrior = new List<int>();
             List<int> archer = new List<int>();
             List<int> mage = new List<int>();
@@ -29,10 +30,10 @@ namespace Peli
             Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 60, 60, false, 1);
             Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, false, 2);
             Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, false, 3);
-
+            
             Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 60, 60, false, 4);
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, false, 5);
-            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, false, 6);
+            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 5, 5, false, 6);
 
             player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
@@ -143,18 +144,21 @@ namespace Peli
                 if (count > 3)
                     count = 0;
 
-                Console.SetCursorPosition(0, number1 + 1);
-                Console.WriteLine("To Undo press: ctrl + z");
+                if (warrior.Count > 0)
+                {
+                    Console.SetCursorPosition(0, number1 + 1);
+                    Console.WriteLine("To Undo press: ctrl + z");
 
-                ConsoleKeyInfo info = Console.ReadKey();
-                if(info.Modifiers.HasFlag(ConsoleModifiers.Control) && info.Key == ConsoleKey.Z)
-                {
-                    Undo();
+                    ConsoleKeyInfo info = Console.ReadKey();
+                    if (info.Modifiers.HasFlag(ConsoleModifiers.Control) && info.Key == ConsoleKey.Z)
+                    {
+                        Undo();
+                    }
+                    else
+                    {
+                        continue;
+                    }
                 }
-                else
-                {
-                    continue;
-                } 
             }
 
             void FightEnemy(Unit attacker, Unit target)
@@ -289,7 +293,7 @@ namespace Peli
                 {
                     if (player_army[i].hp <= 0)
                     {
-                        player_army.RemoveAt(i);
+                        //player_army.RemoveAt(i);
                         Console.SetCursorPosition(1, player_army[i-1].id);
                         Console.WriteLine("Dead");
                         Console.Clear();
@@ -300,7 +304,7 @@ namespace Peli
                 {
                     if (enemy_army[i].hp <= 0)
                     {
-                        enemy_army.RemoveAt(i);
+                        //enemy_army.RemoveAt(i);
                         Console.Clear();
                         Console.SetCursorPosition(24, i + 1);
                         Console.WriteLine("Dead");
@@ -325,72 +329,79 @@ namespace Peli
             {
                 foreach (Unit unit in player_army)
                 {
-                    Console.SetCursorPosition(1, numberPlayer);
-                    Console.Write(unit.id + "." + unit.name);
+                    if (unit.hp > 0)
+                    {
+                        Console.SetCursorPosition(1, numberPlayer);
+                        Console.Write(unit.id + "." + unit.name);
 
-                    if (unit.hp == unit.maxHealth)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                        Console.ForegroundColor = ConsoleColor.White;
+                        if (unit.hp == unit.maxHealth)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else if (unit.hp <= unit.maxHealth)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else if (unit.hp == unit.hp / 2)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkYellow;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else if (unit.hp == 10)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                     }
-                    else if (unit.hp <= unit.maxHealth)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else if (unit.hp == unit.hp / 2)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkYellow;
-                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-                    else if (unit.hp == 10)
-                    {
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
+
                     numberPlayer++;
                 }
 
                 foreach (Unit unit in enemy_army)
                 {
-                    Console.SetCursorPosition(24, numberEnemy);
-                    Console.WriteLine(unit.id + "." + unit.name);
-
-                    if (unit.hp == unit.maxHealth)
+                    if (unit.hp > 0)
                     {
-                        enemyHealth = "(full health)";
+                        Console.SetCursorPosition(24, numberEnemy);
+                        Console.WriteLine(unit.id + "." + unit.name);
 
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.SetCursorPosition(43, numberEnemy);
+                        if (unit.hp == unit.maxHealth)
+                        {
+                            enemyHealth = "(full health)";
 
-                        Console.WriteLine(enemyHealth);
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.SetCursorPosition(43, numberEnemy);
 
-                    else if (unit.hp <= unit.maxHealth)
-                    {
-                        enemyHealth = "(damaged)    ";
+                            Console.WriteLine(enemyHealth);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
 
-                        Console.ForegroundColor = ConsoleColor.Yellow;
-                        Console.SetCursorPosition(43, numberEnemy);
+                        else if (unit.hp <= unit.maxHealth)
+                        {
+                            enemyHealth = "(damaged)    ";
 
-                        Console.WriteLine(enemyHealth);
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.SetCursorPosition(43, numberEnemy);
 
-                    else if (unit.hp < 10)
-                    {
-                        enemyHealth = "(barely alive  )";
+                            Console.WriteLine(enemyHealth);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
 
-                        Console.ForegroundColor = ConsoleColor.DarkRed;
-                        Console.SetCursorPosition(43, numberEnemy);
+                        else if (unit.hp < 10)
+                        {
+                            enemyHealth = "(barely alive  )";
 
-                        Console.WriteLine(enemyHealth);
-                        Console.ForegroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.SetCursorPosition(43, numberEnemy);
+
+                            Console.WriteLine(enemyHealth);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
                     }
                     numberEnemy++;
                 }
@@ -460,16 +471,6 @@ namespace Peli
 
             void Undo()
             {
-                //Console.SetCursorPosition(1, 30);
-                //Console.Write(mage[counter - 1]);
-
-                //Console.SetCursorPosition(0, number1 + 1);
-                //Console.WriteLine("To Undo press: ctrl + z");
-                //ConsoleKeyInfo info = Console.ReadKey();
-
-                //if (info.Modifiers.HasFlag(ConsoleModifiers.Control) && info.Key == ConsoleKey.Z)
-                //{
-
                 if (warrior.Count > 0)
                 {
                     humanWarrior.hp = warrior[counter - 1];
@@ -480,9 +481,6 @@ namespace Peli
                     skeletonArcher.hp = eArcher[counter - 1];
                     skeletonMage.hp = eMage[counter - 1];
                 } 
-                    /*Console.SetCursorPosition(0, number1 + 1);
-                    Console.Write("                                ");*/
-                //}
             }
         }
 
