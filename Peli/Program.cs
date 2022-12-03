@@ -49,7 +49,6 @@ namespace Peli
             int target;
             int attacker;
             int count = 0;
-            int counter = 0;
 
             string enemyHealth = "";
             bool player = false;
@@ -139,7 +138,6 @@ namespace Peli
                 Console.Write("  ");
 
                 count++;
-                counter++;
 
                 if (count > 3)
                     count = 0;
