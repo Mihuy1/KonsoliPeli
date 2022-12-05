@@ -19,7 +19,6 @@ namespace Peli
             Console.WriteLine(title);
             Console.ForegroundColor = ConsoleColor.White;
 
-
             Console.WriteLine("Press any button to start game!");
             Console.ReadKey();
         }

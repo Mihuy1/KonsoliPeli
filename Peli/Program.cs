@@ -273,23 +273,32 @@ namespace Peli
 
             bool CheckIfWon()
             {
-
-                if (player_army.Count == 0)
+                int i = 0;
+                foreach (Unit unit in player_army)
                 {
-                    Console.WriteLine("Enemy won!");
+                    if (unit.hp <= 0)
+                        i++;
 
-                    SoundPlayer my_wave_file = new SoundPlayer("Sounds/GameOver.wav");
-                    my_wave_file.PlaySync();
-
-                    enemy = true;
-                    return true;
-
+                    if (i == player_army.Count)
+                    {
+                        enemy = true;
+                        player = false;
+                        return true;
+                    }
                 }
-                else if (enemy_army.Count == 0)
+
+                foreach (Unit unit in enemy_army)
                 {
-                    Console.WriteLine("Player won!");
-                    player = true;
-                    return true;
+                    if (unit.hp <= 0)
+                        i++;
+
+                    if (i == enemy_army.Count)
+                    {
+                        enemy = false;
+                        player = true;
+
+                        return true;
+                    }
                 }
 
                 return false;
@@ -489,12 +498,6 @@ namespace Peli
                     skeletonMage.hp = eMage[eMage.Count - 1];
                 } 
             }
-        }
-
-        private static void PlaySound_GameOver()
-        {
-            SoundPlayer my_wave_file = new SoundPlayer("Sounds/GameOver.wav");
-            my_wave_file.PlaySync();
         }
     }
 }
