@@ -67,8 +67,6 @@ namespace Peli
 
                 if (CheckIfWon())
                 {
-                    Console.WriteLine("Joku voitti");
-
                     if (player)
                         EndWindow.PlayerWon();
                     else if (enemy)
@@ -100,8 +98,17 @@ namespace Peli
 
                     number1++;
                 }
-
+                
+                if (player_army[attacker - 1].hp > 0)
                 ChooseWhoWillAttack(player_army[attacker - 1]);
+                else
+                {
+                    Console.SetCursorPosition(1, number1++);
+                    Console.WriteLine(player_army[attacker - 1].name + " is dead");
+                    Console.SetCursorPosition(18, 8);
+                    attacker = Console.ReadKey().KeyChar;
+                    AsciiToInteger(attacker);
+                }
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -294,8 +301,7 @@ namespace Peli
                 {
                     if (player_army[i].hp <= 0)
                     {
-                        //player_army.RemoveAt(i);
-                        Console.SetCursorPosition(1, player_army[i-1].id);
+                        Console.SetCursorPosition(1, player_army[i].id);
                         Console.WriteLine("Dead");
                         Console.Clear();
                     }
@@ -305,7 +311,6 @@ namespace Peli
                 {
                     if (enemy_army[i].hp <= 0)
                     {
-                        //enemy_army.RemoveAt(i);
                         Console.Clear();
                         Console.SetCursorPosition(24, i + 1);
                         Console.WriteLine("Dead");
