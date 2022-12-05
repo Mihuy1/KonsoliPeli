@@ -11,9 +11,6 @@ namespace Peli
         {
             StartWindow.Start();
 
-            Console.WriteLine("Press any button to start game!");
-            Console.ReadKey();
-
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
 
@@ -27,13 +24,13 @@ namespace Peli
 
             Random random = new Random();
 
-            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 60, 60, false, 1);
+            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 55, 55, false, 1);
             Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, false, 2);
             Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, false, 3);
             
-            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 60, 60, false, 4);
+            Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 55, 55, false, 4);
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, false, 5);
-            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 5, 5, false, 6);
+            Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, false, 6);
 
             player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
@@ -96,9 +93,13 @@ namespace Peli
 
                 if (attacker > humanMage.id)
                 {
-                    Console.SetCursorPosition(1, 9);
+                    Console.SetCursorPosition(1, number1 + 1);
                     Console.Write("Incorrect id!");
+                    Console.SetCursorPosition(18, 8);
                     attacker = Console.ReadKey().KeyChar;
+                    AsciiToInteger(attacker);
+
+                    number1++;
                 }
 
                 ChooseWhoWillAttack(player_army[attacker - 1]);
@@ -113,15 +114,21 @@ namespace Peli
                 target = Console.ReadKey().KeyChar;
 
                 AsciiToInteger(target);
-                ChooseEnemy(enemy_army[target - 4]);
-
-                PressAnyKeyToStart();
 
                 if (target > skeletonMage.id)
                 {
+                    Console.SetCursorPosition(1, number1 + 1);
                     Console.WriteLine("Incorrect id!");
+                    Console.SetCursorPosition(16, 9);
                     target = Console.ReadKey().KeyChar;
+                    AsciiToInteger(target);
+
+                    number1++;
                 }
+
+                ChooseEnemy(enemy_army[target - 4]);
+
+                PressAnyKeyToStart();
 
                 Console.ForegroundColor = ConsoleColor.White;
 
@@ -142,8 +149,6 @@ namespace Peli
                 if (count > 3)
                     count = 0;
 
-                //if (warrior.Count >= 0)
-                //{
                     Console.SetCursorPosition(0, number1 + 1);
                     Console.WriteLine("To Undo press: ctrl + z");
 
@@ -156,14 +161,13 @@ namespace Peli
                     {
                         continue;
                     }
-                //}
             }
 
             void FightEnemy(Unit attacker, Unit target)
             {
                 target.hp -= attacker.dmg;
 
-                Console.SetCursorPosition(1, number1);
+                Console.SetCursorPosition(1, number1 + 1);
                 Console.ForegroundColor = ConsoleColor.DarkCyan;
                 Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
                 Console.ForegroundColor = ConsoleColor.White;
@@ -254,7 +258,7 @@ namespace Peli
 
                 player.hp -= enemy.dmg;
 
-                Console.SetCursorPosition(1, number1);
+                Console.SetCursorPosition(1, number1 + 1);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
                 Console.ForegroundColor = ConsoleColor.White;
