@@ -47,13 +47,12 @@ namespace Peli
             int attacker;
             int count = 0;
 
-            string enemyHealth = "";
+            string enemyHealth;
             bool player = false;
             bool enemy = false;
 
             while (true)
             {
-
                 numberEnemy = 1;
                 numberPlayer = 1;
 
@@ -149,7 +148,7 @@ namespace Peli
                 if (count > 3)
                     count = 0;
 
-                    Console.SetCursorPosition(0, number1 + 1);
+                    Console.SetCursorPosition(0, number1 + 2);
                     Console.WriteLine("To Undo press: ctrl + z");
 
                     ConsoleKeyInfo info = Console.ReadKey();
@@ -316,6 +315,7 @@ namespace Peli
 
             void PrintBase()
             {
+                Console.Clear();
 
                 Console.SetCursorPosition(15, 0);
                 Console.WriteLine("[------------ Status ------------]");
