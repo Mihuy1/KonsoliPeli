@@ -24,9 +24,9 @@ namespace Peli
 
             Random random = new Random();
 
-            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 55, 55, false, 1);
-            Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, false, 2);
-            Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, false, 3);
+            Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 5, 5, false, 1);
+            Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 5, 5, false, 2);
+            Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 5, 5, false, 3);
             
             Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 55, 55, false, 4);
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, false, 5);
@@ -67,13 +67,8 @@ namespace Peli
 
                 if (CheckIfWon())
                 {
-                    if (player)
-                        EndWindow.PlayerWon();
-                    else if (enemy)
-                        EndWindow.EnemyWon();
+                    break;
                 }
-
-                CheckIfEveryoneAttacked();
 
                 CheckIfAlive();
 
@@ -98,10 +93,8 @@ namespace Peli
 
                     number1++;
                 }
-                
-                if (player_army[attacker - 1].hp > 0)
-                ChooseWhoWillAttack(player_army[attacker - 1]);
-                else
+
+                if (player_army[attacker - 1].hp <= 0)
                 {
                     Console.SetCursorPosition(1, number1++);
                     Console.WriteLine(player_army[attacker - 1].name + " is dead");
@@ -109,6 +102,11 @@ namespace Peli
                     attacker = Console.ReadKey().KeyChar;
                     AsciiToInteger(attacker);
                 }
+
+                CheckIfEveryoneAttacked();
+                
+                if (player_army[attacker - 1].hp > 0)
+                ChooseWhoWillAttack(player_army[attacker - 1]);
 
                 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -262,45 +260,49 @@ namespace Peli
                 Unit player = player_army[playerIndex];
                 Unit enemy = enemy_army[enemyIndex];
 
-                player.hp -= enemy.dmg;
+                if (player.hp > 0 && enemy.hp > 0)
+                {
+                    player.hp -= enemy.dmg;
 
-                Console.SetCursorPosition(1, number1 + 1);
-                Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
-                Console.ForegroundColor = ConsoleColor.White;
-                number1++;
+                    Console.SetCursorPosition(1, number1 + 1);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    number1++;
+                } else
+                    FightPlayer();
             } // Taistellaan pelaaja vastaan
 
             bool CheckIfWon()
             {
                 int i = 0;
+                int a = 0;
                 foreach (Unit unit in player_army)
                 {
                     if (unit.hp <= 0)
                         i++;
-
-                    if (i == player_army.Count)
-                    {
-                        enemy = true;
-                        player = false;
-                        return true;
-                    }
                 }
 
                 foreach (Unit unit in enemy_army)
                 {
                     if (unit.hp <= 0)
-                        i++;
-
-                    if (i == enemy_army.Count)
-                    {
-                        enemy = false;
-                        player = true;
-
-                        return true;
-                    }
+                        a++;
                 }
 
+                if (i == player_army.Count)
+                {
+                    enemy = true;
+                    player = false;
+                    return true;
+                }
+
+                if (i == enemy_army.Count)
+                {
+                    enemy = false;
+                    player = true;
+
+                    return true;
+                }
                 return false;
             } // Tarkisetaan onko pelaaja/vihollinen voittanut
 
@@ -443,27 +445,24 @@ namespace Peli
             void CheckIfEveryoneAttacked()
             {
                 int i = 0;
+                int a = 0;
                foreach (Unit unit in player_army)
                 {
                     if (unit.attacked == true)
                         i++;
+
+                    if (unit.hp > 0)
+                        a++;
                 }
 
                foreach (Unit unit in player_army)
                 {
-                    if (i == player_army.Count)
+                    if (i == a)
                     {
                         unit.attacked = false;
                     }
                 }
-
-               if (player_army.Count == 1)
-                {
-                    foreach (Unit unit in player_army)
-                    {
-                        unit.attacked = false;
-                    }
-                }
+               
             } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 
             void AsciiToInteger(int i)
