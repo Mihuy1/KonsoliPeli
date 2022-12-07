@@ -21,6 +21,8 @@ namespace Peli
 
             Console.WriteLine("Press any button to start game!");
             Console.ReadKey();
+
+            Console.Clear();
         }
     }
 }
