@@ -71,8 +71,9 @@ namespace Peli
                 // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(1, 8);
-                Console.WriteLine("Who will attack: ");
+                Console.WriteLine("Who will attack (ctrl+z to undo):  ");
 
+                Console.SetCursorPosition(34, 8);
                 ConsoleKeyInfo info = Console.ReadKey();
                 if (info.Modifiers.HasFlag(ConsoleModifiers.Control) && info.Key == ConsoleKey.Z)
                 {
@@ -87,7 +88,7 @@ namespace Peli
                 eArcher.Add(skeletonArcher.hp);
                 eMage.Add(skeletonMage.hp);
 
-                Console.SetCursorPosition(18, 8);
+                Console.SetCursorPosition(34, 8);
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
 
@@ -95,7 +96,7 @@ namespace Peli
                 {
                     Console.SetCursorPosition(1, number1 + 1);
                     Console.Write("Incorrect id!");
-                    Console.SetCursorPosition(18, 8);
+                    Console.SetCursorPosition(34, 8);
                     attacker = Console.ReadKey().KeyChar;
                     AsciiToInteger(attacker);
 
@@ -157,9 +158,6 @@ namespace Peli
                 Console.Write("  ");
 
                 count++;
-
-                if (count > 3)
-                    count = 0;
 
 
                 PressAnyKeyToStart();
@@ -485,23 +483,23 @@ namespace Peli
 
                 void Undo()
                 {
-                    humanWarrior.hp = warrior[warrior.Count - 1];
-                    warrior.RemoveAt(warrior.Count - 1);
-                    humanArcher.hp = archer[archer.Count - 1];
-                    archer.RemoveAt(archer.Count - 1);
-                    humanMage.hp = mage[mage.Count - 1];
-                    mage.RemoveAt(mage.Count - 1);
+                    
+                    if (warrior.Count > 0)
+                    {
+                        humanWarrior.hp = warrior[warrior.Count - 1];
+                        warrior.RemoveAt(warrior.Count - 1);
+                        humanArcher.hp = archer[archer.Count - 1];
+                        archer.RemoveAt(archer.Count - 1);
+                        humanMage.hp = mage[mage.Count - 1];
+                        mage.RemoveAt(mage.Count - 1);
 
-                    skeletonWarrior.hp = eWarrior[eWarrior.Count - 1];
-                    eWarrior.RemoveAt(eWarrior.Count - 1);
-                    skeletonArcher.hp = eArcher[eArcher.Count - 1];
-                    eArcher.RemoveAt(eArcher.Count - 1);
-                    skeletonMage.hp = eMage[eMage.Count - 1];
-                    eMage.RemoveAt(eMage.Count - 1);
-
-                    Console.Write("Meni läpi");
-                    PressAnyKeyToStart();
-
+                        skeletonWarrior.hp = eWarrior[eWarrior.Count - 1];
+                        eWarrior.RemoveAt(eWarrior.Count - 1);
+                        skeletonArcher.hp = eArcher[eArcher.Count - 1];
+                        eArcher.RemoveAt(eArcher.Count - 1);
+                        skeletonMage.hp = eMage[eMage.Count - 1];
+                        eMage.RemoveAt(eMage.Count - 1);
+                    }
                 }
             }
         }
