@@ -14,7 +14,9 @@ namespace Peli
 
             Console.Clear();
             Console.SetCursorPosition((Console.WindowWidth - playerWon.Length) / 2, Console.CursorTop);
+            Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(playerWon);
+            Console.ForegroundColor = ConsoleColor.White;
         }
 
         public static void EnemyWon()
@@ -23,7 +25,9 @@ namespace Peli
 
             Console.Clear();
             Console.SetCursorPosition((Console.WindowWidth - enemyWon.Length) / 2, Console.CursorTop);
+            Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(enemyWon);
+            Console.ForegroundColor= ConsoleColor.White;
         }
     }
 }

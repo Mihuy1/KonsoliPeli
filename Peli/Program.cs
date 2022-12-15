@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Media;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Windows.Input;
 
 namespace Peli
@@ -11,6 +12,8 @@ namespace Peli
         {
             StartWindow.Start();
 
+            // kaikki listat
+            #region 
             List<Unit> player_army = new List<Unit>();
             List<Unit> enemy_army = new List<Unit>();
 
@@ -21,9 +24,12 @@ namespace Peli
             List<int> eWarrior = new List<int>();
             List<int> eArcher = new List<int>();
             List<int> eMage = new List<int>();
+            #endregion
 
             Random random = new Random();
 
+            // Armeijat
+            #region
             Unit humanWarrior = new Unit("Human Warrior", random.Next(8, 15), 55, 55, false, 1);
             Unit humanArcher = new Unit("Human Archer", random.Next(10, 20), 50, 50, false, 2);
             Unit humanMage = new Unit("Human Mage", random.Next(5, 10), 30, 30, false, 3);
@@ -31,7 +37,10 @@ namespace Peli
             Unit skeletonWarrior = new Unit("Skeleton Warrior", random.Next(9, 15), 55, 55, false, 4);
             Unit skeletonArcher = new Unit("Skeleton Archer", random.Next(10, 20), 50, 50, false, 5);
             Unit skeletonMage = new Unit("Skeleton Mage", random.Next(5, 10), 30, 30, false, 6);
+            #endregion
 
+            // Armeijan listaan lisääminen
+            #region
             player_army.Add(humanWarrior);
             player_army.Add(humanArcher);
             player_army.Add(humanMage);
@@ -39,6 +48,7 @@ namespace Peli
             enemy_army.Add(skeletonWarrior);
             enemy_army.Add(skeletonArcher);
             enemy_army.Add(skeletonMage);
+            #endregion
 
             int number1 = 13;
             int numberEnemy = 1;
@@ -58,8 +68,15 @@ namespace Peli
 
                 CheckIfEveryoneAttacked();
 
-                if (CheckIfWon())
+                if (CheckIfWonEnemy())
                 {
+                    EndWindow.EnemyWon();
+                    break;
+                }
+
+                if (CheckIfWonPlayer())
+                {
+                    EndWindow.PlayerWon();
                     break;
                 }
 
@@ -68,7 +85,6 @@ namespace Peli
                 PrintBase();
                 PrintArmies();
 
-                // Valitaan kuka hyökkää vihollista
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(1, 8);
                 Console.WriteLine("Who will attack (ctrl+z to undo):  ");
@@ -88,6 +104,8 @@ namespace Peli
                 eArcher.Add(skeletonArcher.hp);
                 eMage.Add(skeletonMage.hp);
 
+                // Kuka höykkää osio
+                #region
                 Console.SetCursorPosition(34, 8);
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
@@ -116,10 +134,10 @@ namespace Peli
 
                 if (player_army[attacker - 1].hp > 0)
                     ChooseWhoWillAttack(player_army[attacker - 1]);
+                #endregion
 
-                /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                // Valitaan vihollinen
+                // Valitaan ketä hyökätään
+                #region
                 Console.SetCursorPosition(1, 9);
                 Console.WriteLine("Who to attack: ");
 
@@ -139,13 +157,29 @@ namespace Peli
                     number1++;
                 }
 
-                ChooseEnemy(enemy_army[target - 4]);
+                if (enemy_army[target - 4].hp <= 0)
+                {
+                    Console.SetCursorPosition(1, number1 + 1);
+                    Console.WriteLine("Enemy is dead! Choose again!");
+
+                    Console.SetCursorPosition(1, 9);
+                    Console.WriteLine("Who to attack: ");
+
+                    Console.SetCursorPosition(16, 9);
+                    target = Console.ReadKey().KeyChar;
+                    AsciiToInteger(target);
+
+                } else
+                {
+                    ChooseEnemy(enemy_army[target - 4]);
+                }
 
                 PressAnyKeyToStart();
 
                 Console.ForegroundColor = ConsoleColor.White;
 
                 var attackerUnit = player_army[attacker - 1];
+                #endregion
 
                 FightEnemy(attackerUnit, enemy_army[target - 4]); ;
 
@@ -158,7 +192,6 @@ namespace Peli
                 Console.Write("  ");
 
                 count++;
-
 
                 PressAnyKeyToStart();
 
@@ -252,58 +285,50 @@ namespace Peli
 
                 void FightPlayer()
                 {
-                    int playerIndex = random.Next(player_army.Count);
-                    int enemyIndex = random.Next(enemy_army.Count);
-
-                    Unit player = player_army[playerIndex];
-                    Unit enemy = enemy_army[enemyIndex];
-
-                    if (player.hp > 0 && enemy.hp > 0)
+                    if (CheckIfWonPlayer() == false || CheckIfWonEnemy())
                     {
-                        player.hp -= enemy.dmg;
+                        int playerIndex = random.Next(player_army.Count);
+                        int enemyIndex = random.Next(enemy_army.Count);
 
-                        Console.SetCursorPosition(1, number1 + 1);
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
-                        Console.ForegroundColor = ConsoleColor.White;
-                        number1++;
+                        Unit player = player_army[playerIndex];
+                        Unit enemy = enemy_army[enemyIndex];
+
+                        if (player.hp > 0 && enemy.hp > 0)
+                        {
+                            player.hp -= enemy.dmg;
+
+                            Console.SetCursorPosition(1, number1 + 1);
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
+                            Console.ForegroundColor = ConsoleColor.White;
+                            number1++;
+                        }
+                        else
+                            FightPlayer();
                     }
-                    else
-                        FightPlayer();
                 } // Taistellaan pelaaja vastaan
 
-                bool CheckIfWon()
+                bool CheckIfWonEnemy()
                 {
-                    int i = 0;
-                    int a = 0;
-                    foreach (Unit unit in player_army)
+                    foreach(Unit unit in player_army)
                     {
-                        if (unit.hp <= 0)
-                            i++;
+                        if (unit.hp > 0)
+                            return false;
                     }
+                    return true;
 
+                } // Tarkisetaan onko vihollinen voittanut
+
+                bool CheckIfWonPlayer()
+                {
                     foreach (Unit unit in enemy_army)
                     {
-                        if (unit.hp <= 0)
-                            a++;
+                        if (unit.hp > 0)
+                            return false;
                     }
+                    return true;
 
-                    if (i == player_army.Count)
-                    {
-                        enemy = true;
-                        player = false;
-                        return true;
-                    }
-
-                    if (i == enemy_army.Count)
-                    {
-                        enemy = false;
-                        player = true;
-
-                        return true;
-                    }
-                    return false;
-                } // Tarkisetaan onko pelaaja/vihollinen voittanut
+                } // Tarkistetaan onko pelaaja voittanut
 
                 void CheckIfAlive()
                 {
@@ -396,22 +421,22 @@ namespace Peli
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
 
-                            else if (unit.hp < 15)
+                            else if (unit.hp <= unit.maxHealth)
                             {
-                                enemyHealth = "(barely alive  )";
+                                enemyHealth = "(damaged)    ";
 
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
+                                Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.SetCursorPosition(43, numberEnemy);
 
                                 Console.WriteLine(enemyHealth);
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
 
-                            else if (unit.hp <= unit.maxHealth)
+                            else if (unit.hp < 16)
                             {
-                                enemyHealth = "(damaged)    ";
+                                enemyHealth = "(barely alive  )";
 
-                                Console.ForegroundColor = ConsoleColor.Yellow;
+                                Console.ForegroundColor = ConsoleColor.DarkRed;
                                 Console.SetCursorPosition(43, numberEnemy);
 
                                 Console.WriteLine(enemyHealth);
@@ -483,7 +508,6 @@ namespace Peli
 
                 void Undo()
                 {
-                    
                     if (warrior.Count > 0)
                     {
                         humanWarrior.hp = warrior[warrior.Count - 1];
@@ -502,6 +526,8 @@ namespace Peli
                     }
                 }
             }
+
         }
+
     }
 }
