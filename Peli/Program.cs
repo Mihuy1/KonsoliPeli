@@ -110,7 +110,7 @@ namespace Peli
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
 
-                if (attacker > humanMage.id)
+                while (attacker > humanMage.id)
                 {
                     Console.SetCursorPosition(1, number1 + 1);
                     Console.Write("Incorrect id!");
@@ -146,7 +146,7 @@ namespace Peli
 
                 AsciiToInteger(target);
 
-                if (target > skeletonMage.id)
+                while (target > skeletonMage.id)
                 {
                     Console.SetCursorPosition(1, number1 + 1);
                     Console.WriteLine("Incorrect id!");
@@ -156,6 +156,17 @@ namespace Peli
 
                     number1++;
                 }
+
+                /*if (target > skeletonMage.id)
+                {
+                    Console.SetCursorPosition(1, number1 + 1);
+                    Console.WriteLine("Incorrect id!");
+                    Console.SetCursorPosition(16, 9);
+                    target = Console.ReadKey().KeyChar;
+                    AsciiToInteger(target);
+
+                    number1++;
+                }*/
 
                 if (enemy_army[target - 4].hp <= 0)
                 {
@@ -382,15 +393,9 @@ namespace Peli
                                 Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
-                            else if (unit.hp < 30)
+                            else if (unit.hp < unit.maxHealth)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                            else if (unit.hp == unit.hp / 2)
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkYellow;
                                 Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
