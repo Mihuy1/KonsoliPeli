@@ -195,6 +195,8 @@ namespace Peli
 
                 PressAnyKeyToStart();
 
+                Console.Clear();
+
                 void FightEnemy(Unit attacker, Unit target)
                 {
                     target.hp -= attacker.dmg;
@@ -380,7 +382,7 @@ namespace Peli
                                 Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
                                 Console.ForegroundColor = ConsoleColor.White;
                             }
-                            else if (unit.hp == unit.hp / 1.5)
+                            else if (unit.hp < 30)
                             {
                                 Console.ForegroundColor = ConsoleColor.Yellow;
                                 Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
