@@ -24,6 +24,15 @@ namespace Peli
             List<int> eWarrior = new List<int>();
             List<int> eArcher = new List<int>();
             List<int> eMage = new List<int>();
+
+            List<bool> warriorBool = new List<bool>();
+            List<bool> archerBool = new List<bool>();
+            List<bool> mageBool = new List<bool>();
+
+            List<bool> eWarriorBool = new List<bool>();
+            List<bool> eMageBool = new List<bool>();
+            List<bool> eArcherBool = new List<bool>();
+
             #endregion
 
             Random random = new Random();
@@ -50,6 +59,8 @@ namespace Peli
             enemy_army.Add(skeletonMage);
             #endregion
 
+            // Variablet
+            #region
             int number1 = 13;
             int numberEnemy = 1;
             int numberPlayer = 1;
@@ -60,6 +71,7 @@ namespace Peli
             string enemyHealth;
             bool player = false;
             bool enemy = false;
+            #endregion
 
             while (true)
             {
@@ -80,14 +92,16 @@ namespace Peli
                     break;
                 }
 
+                // Tarkistetaan ketä on elossa
                 CheckIfAlive();
 
+                // Printataan base & armeija
                 PrintBase();
                 PrintArmies();
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(1, 8);
-                Console.WriteLine("Who will attack (ctrl+z to undo):  ");
+                Console.WriteLine("Who will attack (ctrl+z to undo):   " + number1);
 
                 Console.SetCursorPosition(34, 8);
                 ConsoleKeyInfo info = Console.ReadKey();
@@ -97,12 +111,29 @@ namespace Peli
                     continue;
                 }
 
+                // Lisätään listaan undo varten
+                #region
+                // Pelaajan terveys
                 warrior.Add(humanWarrior.hp);
                 archer.Add(humanArcher.hp);
                 mage.Add(humanMage.hp);
+
+                // Vihollisten terveys
                 eWarrior.Add(skeletonWarrior.hp);
                 eArcher.Add(skeletonArcher.hp);
                 eMage.Add(skeletonMage.hp);
+
+                // Pelaajan bool
+                warriorBool.Add(humanWarrior.attacked);
+                archerBool.Add(humanArcher.attacked);
+                mageBool.Add(humanMage.attacked);
+
+                // Vihollisten bool
+                eWarriorBool.Add(skeletonWarrior.attacked);
+                eArcherBool.Add(skeletonArcher.attacked);
+                eMageBool.Add(skeletonMage.attacked);
+                
+                #endregion
 
                 // Kuka höykkää osio
                 #region
@@ -206,333 +237,372 @@ namespace Peli
 
                 PressAnyKeyToStart();
 
+                if (number1 >= 29)
+                    number1 = 13;
+
                 Console.Clear();
+            }
 
-                void FightEnemy(Unit attacker, Unit target)
+            // Metodit
+            #region
+            void FightEnemy(Unit attacker, Unit target)
+            {
+                target.hp -= attacker.dmg;
+
+                Console.SetCursorPosition(1, number1 + 1);
+                Console.ForegroundColor = ConsoleColor.DarkCyan;
+                Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
+                Console.ForegroundColor = ConsoleColor.White;
+                number1++;
+                attacker.attacked = true;
+            } // Hyökkää vihollista
+
+            void ChooseWhoWillAttack(Unit unit)
+            {
+                if (unit.attacked == false)
                 {
-                    target.hp -= attacker.dmg;
+                    Console.SetCursorPosition(1, unit.id);
 
-                    Console.SetCursorPosition(1, number1 + 1);
-                    Console.ForegroundColor = ConsoleColor.DarkCyan;
-                    Console.WriteLine(attacker.name + " attacks " + target.name + ", dealing " + attacker.dmg + " damage.");
-                    Console.ForegroundColor = ConsoleColor.White;
-                    number1++;
-                    attacker.attacked = true;
-                } // Hyökkää vihollista
-
-                void ChooseWhoWillAttack(Unit unit)
-                {
-                    if (unit.attacked == false)
+                    if (unit == humanWarrior)
                     {
-                        Console.SetCursorPosition(1, unit.id);
+                        Console.SetCursorPosition(1, 1);
+                        Console.BackgroundColor = ConsoleColor.Green;
+                        Console.WriteLine(unit.id + "." + unit.name);
+                        Console.BackgroundColor = ConsoleColor.Black;
 
-                        if (unit == humanWarrior)
+                    }
+
+                    if (unit == humanArcher)
+                    {
+
+                        if (humanWarrior.hp <= 0)
                         {
                             Console.SetCursorPosition(1, 1);
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
                             Console.BackgroundColor = ConsoleColor.Black;
-
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(1, 2);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
                         }
 
-                        if (unit == humanArcher)
+                    }
+
+                    if (unit == humanMage)
+                    {
+                        if (humanArcher.hp <= 0 || humanWarrior.hp <= 0)
                         {
-
-                            if (humanWarrior.hp <= 0)
-                            {
-                                Console.SetCursorPosition(1, 1);
-                                Console.BackgroundColor = ConsoleColor.Green;
-                                Console.WriteLine(unit.id + "." + unit.name);
-                                Console.BackgroundColor = ConsoleColor.Black;
-                            }
-                            else
-                            {
-                                Console.SetCursorPosition(1, 2);
-                                Console.BackgroundColor = ConsoleColor.Green;
-                                Console.WriteLine(unit.id + "." + unit.name);
-                                Console.BackgroundColor = ConsoleColor.Black;
-                            }
-
+                            Console.SetCursorPosition(1, 2);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
                         }
-
-                        if (unit == humanMage)
+                        else
                         {
-                            if (humanArcher.hp <= 0 || humanWarrior.hp <= 0)
-                            {
-                                Console.SetCursorPosition(1, 2);
-                                Console.BackgroundColor = ConsoleColor.Green;
-                                Console.WriteLine(unit.id + "." + unit.name);
-                                Console.BackgroundColor = ConsoleColor.Black;
-                            }
-                            else
-                            {
-                                Console.SetCursorPosition(1, 3);
-                                Console.BackgroundColor = ConsoleColor.Green;
-                                Console.WriteLine(unit.id + "." + unit.name);
-                                Console.BackgroundColor = ConsoleColor.Black;
-                            }
+                            Console.SetCursorPosition(1, 3);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
                         }
                     }
-                    else
+                }
+                else
+                {
+                    while (unit.attacked == true)
                     {
-                        Console.SetCursorPosition(0, 10);
+                        Console.SetCursorPosition(1, number1);
                         Console.WriteLine(unit.name + " already attacked");
 
-                        Console.SetCursorPosition(8, 16);
+                        Console.SetCursorPosition(34, 8);
                         attacker = Console.ReadKey().KeyChar;
 
                         AsciiToInteger(attacker);
 
                         ChooseWhoWillAttack(player_army[attacker - 1]);
+                        number1++;
 
-                    }
-                } // Valitsee kuka hyökkää
-
-                void ChooseEnemy(Unit unit)
-                {
-                    Console.SetCursorPosition(24, unit.id - 3);
-                    Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.Write(unit.id + "." + unit.name);
-                    Console.BackgroundColor = ConsoleColor.Black;
-                } // Valitaan ketä hyökätään
-
-                void FightPlayer()
-                {
-                    if (CheckIfWonPlayer() == false || CheckIfWonEnemy())
-                    {
-                        int playerIndex = random.Next(player_army.Count);
-                        int enemyIndex = random.Next(enemy_army.Count);
-
-                        Unit player = player_army[playerIndex];
-                        Unit enemy = enemy_army[enemyIndex];
-
-                        if (player.hp > 0 && enemy.hp > 0)
-                        {
-                            player.hp -= enemy.dmg;
-
-                            Console.SetCursorPosition(1, number1 + 1);
-                            Console.ForegroundColor = ConsoleColor.Red;
-                            Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
-                            Console.ForegroundColor = ConsoleColor.White;
-                            number1++;
-                        }
-                        else
-                            FightPlayer();
-                    }
-                } // Taistellaan pelaaja vastaan
-
-                bool CheckIfWonEnemy()
-                {
-                    foreach(Unit unit in player_army)
-                    {
-                        if (unit.hp > 0)
-                            return false;
-                    }
-                    return true;
-
-                } // Tarkisetaan onko vihollinen voittanut
-
-                bool CheckIfWonPlayer()
-                {
-                    foreach (Unit unit in enemy_army)
-                    {
-                        if (unit.hp > 0)
-                            return false;
-                    }
-                    return true;
-
-                } // Tarkistetaan onko pelaaja voittanut
-
-                void CheckIfAlive()
-                {
-                    for (int i = 0; i < player_army.Count; i++)
-                    {
-                        if (player_army[i].hp <= 0)
-                        {
-                            Console.SetCursorPosition(1, player_army[i].id);
-                            Console.WriteLine("Dead");
-                            Console.Clear();
-                        }
-                    }
-
-                    for (int i = 0; i < enemy_army.Count; i++)
-                    {
-                        if (enemy_army[i].hp <= 0)
-                        {
-                            Console.Clear();
-                            Console.SetCursorPosition(24, i + 1);
-                            Console.WriteLine("Dead");
-                        }
-                    }
-                } // Tarkistetaan jos joku on kuollut = siivotaan konsoli
-
-                void PrintBase()
-                {
-                    Console.SetCursorPosition(15, 0);
-                    Console.WriteLine("[------------ Status ------------]");
-
-                    Console.SetCursorPosition(15, 7);
-                    Console.WriteLine("[------------ Message ------------]");
-
-                    Console.SetCursorPosition(15, 12);
-                    Console.WriteLine("------------ History ------------");
-                } // Printtaa Status, Message, History
-
-                void PrintArmies()
-                {
-                    foreach (Unit unit in player_army)
-                    {
-                        if (unit.hp > 0)
-                        {
-                            Console.SetCursorPosition(1, numberPlayer);
-                            Console.Write(unit.id + "." + unit.name);
-
-                            if (unit.hp == unit.maxHealth)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                            else if (unit.hp < unit.maxHealth)
-                            {
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                            else if (unit.hp <= 15)
-                            {
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                        }
-
-                        numberPlayer++;
-                    }
-
-                    foreach (Unit unit in enemy_army)
-                    {
-                        if (unit.hp > 0)
-                        {
-                            Console.SetCursorPosition(24, numberEnemy);
-                            Console.WriteLine(unit.id + "." + unit.name);
-
-                            if (unit.hp == unit.maxHealth)
-                            {
-                                enemyHealth = "(full health)";
-
-                                Console.ForegroundColor = ConsoleColor.Green;
-                                Console.SetCursorPosition(43, numberEnemy);
-
-                                Console.WriteLine(enemyHealth);
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-
-                            else if (unit.hp <= unit.maxHealth)
-                            {
-                                enemyHealth = "(damaged)    ";
-
-                                Console.ForegroundColor = ConsoleColor.Yellow;
-                                Console.SetCursorPosition(43, numberEnemy);
-
-                                Console.WriteLine(enemyHealth);
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-
-                            else if (unit.hp < 16)
-                            {
-                                enemyHealth = "(barely alive  )";
-
-                                Console.ForegroundColor = ConsoleColor.DarkRed;
-                                Console.SetCursorPosition(43, numberEnemy);
-
-                                Console.WriteLine(enemyHealth);
-                                Console.ForegroundColor = ConsoleColor.White;
-                            }
-                        }
-                        numberEnemy++;
-                    }
-
-                } // Printtaa pelaajan- ja vihollisen armeijan
-
-                void PressAnyKeyToStart()
-                {
-                    int i = 10;
-                    Console.SetCursorPosition(0, i);
-                    Console.WriteLine("Press any key to start fight....");
-                    Console.ReadKey();
-                    Console.SetCursorPosition(0, i + 1);
-                    Console.WriteLine("        ");
-                    i++;
-
-                    if (i > 11)
-                    {
-                        Console.SetCursorPosition(5, 15);
-                    }
-                } // Odottaa kun pelaaja painaa jotain nappia jotta taistelu alkaisi ja pistää sen oikeseen paikkaan.
-
-                void CheckIfEveryoneAttacked()
-                {
-                    int i = 0;
-                    int a = 0;
-                    foreach (Unit unit in player_army)
-                    {
-                        if (unit.attacked == true)
-                            i++;
-
-                        if (unit.hp > 0)
-                            a++;
-                    }
-
-                    foreach (Unit unit in player_army)
-                    {
-                        if (i == a)
-                        {
-                            unit.attacked = false;
-                        }
-                    }
-
-                } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
-
-                void AsciiToInteger(int i)
-                {
-                    // Pelaaja
-                    if (i == 49)
-                        attacker = 1;
-                    else if (i == 50)
-                        attacker = 2;
-                    else if (i == 51)
-                        attacker = 3;
-
-                    // Vihollinen
-                    else if (i == 52)
-                        target = 4;
-                    else if (i == 53)
-                        target = 5;
-                    else if (i == 54)
-                        target = 6;
-                } // Converttaa asciista oikeisiin numeroihin.
-
-                void Undo()
-                {
-                    if (warrior.Count > 0)
-                    {
-                        humanWarrior.hp = warrior[warrior.Count - 1];
-                        warrior.RemoveAt(warrior.Count - 1);
-                        humanArcher.hp = archer[archer.Count - 1];
-                        archer.RemoveAt(archer.Count - 1);
-                        humanMage.hp = mage[mage.Count - 1];
-                        mage.RemoveAt(mage.Count - 1);
-
-                        skeletonWarrior.hp = eWarrior[eWarrior.Count - 1];
-                        eWarrior.RemoveAt(eWarrior.Count - 1);
-                        skeletonArcher.hp = eArcher[eArcher.Count - 1];
-                        eArcher.RemoveAt(eArcher.Count - 1);
-                        skeletonMage.hp = eMage[eMage.Count - 1];
-                        eMage.RemoveAt(eMage.Count - 1);
+                        if (player_army[attacker - 1].attacked == false)
+                            break;
                     }
                 }
+            } // Valitsee kuka hyökkää
+
+            void ChooseEnemy(Unit unit)
+            {
+                Console.SetCursorPosition(24, unit.id - 3);
+                Console.BackgroundColor = ConsoleColor.DarkRed;
+                Console.Write(unit.id + "." + unit.name);
+                Console.BackgroundColor = ConsoleColor.Black;
+            } // Valitaan ketä hyökätään
+
+            void FightPlayer()
+            {
+                if (CheckIfWonPlayer() == false || CheckIfWonEnemy())
+                {
+                    int playerIndex = random.Next(player_army.Count);
+                    int enemyIndex = random.Next(enemy_army.Count);
+
+                    Unit player = player_army[playerIndex];
+                    Unit enemy = enemy_army[enemyIndex];
+
+                    if (player.hp > 0 && enemy.hp > 0)
+                    {
+                        player.hp -= enemy.dmg;
+
+                        Console.SetCursorPosition(1, number1 + 1);
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine(enemy.name + " attacks " + player.name + ", dealing " + enemy.dmg + " damage.");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        number1++;
+                    }
+                    else
+                        FightPlayer();
+                }
+            } // Taistellaan pelaaja vastaan
+
+            bool CheckIfWonEnemy()
+            {
+                foreach (Unit unit in player_army)
+                {
+                    if (unit.hp > 0)
+                        return false;
+                }
+                return true;
+
+            } // Tarkisetaan onko vihollinen voittanut
+
+            bool CheckIfWonPlayer()
+            {
+                foreach (Unit unit in enemy_army)
+                {
+                    if (unit.hp > 0)
+                        return false;
+                }
+                return true;
+
+            } // Tarkistetaan onko pelaaja voittanut
+
+            void CheckIfAlive()
+            {
+                for (int i = 0; i < player_army.Count; i++)
+                {
+                    if (player_army[i].hp <= 0)
+                    {
+                        Console.SetCursorPosition(1, player_army[i].id);
+                        Console.WriteLine("Dead");
+                        Console.Clear();
+                    }
+                }
+
+                for (int i = 0; i < enemy_army.Count; i++)
+                {
+                    if (enemy_army[i].hp <= 0)
+                    {
+                        Console.Clear();
+                        Console.SetCursorPosition(24, i + 1);
+                        Console.WriteLine("Dead");
+                    }
+                }
+            } // Tarkistetaan jos joku on kuollut = siivotaan konsoli
+
+            void PrintBase()
+            {
+                Console.SetCursorPosition(15, 0);
+                Console.WriteLine("[------------ Status ------------]");
+
+                Console.SetCursorPosition(15, 7);
+                Console.WriteLine("[------------ Message ------------]");
+
+                Console.SetCursorPosition(15, 12);
+                Console.WriteLine("------------ History ------------");
+            } // Printtaa Status, Message, History
+
+            void PrintArmies()
+            {
+                foreach (Unit unit in player_army)
+                {
+                    if (unit.hp > 0)
+                    {
+                        Console.SetCursorPosition(1, numberPlayer);
+                        Console.Write(unit.id + "." + unit.name);
+
+                        if (unit.hp == unit.maxHealth)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else if (unit.hp < unit.maxHealth)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                        else if (unit.hp <= 15)
+                        {
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.Write("(" + unit.hp + "/" + unit.maxHealth + ")");
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+
+                    numberPlayer++;
+                }
+
+                foreach (Unit unit in enemy_army)
+                {
+                    if (unit.hp > 0)
+                    {
+                        Console.SetCursorPosition(24, numberEnemy);
+                        Console.WriteLine(unit.id + "." + unit.name);
+
+                        if (unit.hp == unit.maxHealth)
+                        {
+                            enemyHealth = "(full health)";
+
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.SetCursorPosition(43, numberEnemy);
+
+                            Console.WriteLine(enemyHealth);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+
+                        else if (unit.hp <= unit.maxHealth)
+                        {
+                            enemyHealth = "(damaged)    ";
+
+                            Console.ForegroundColor = ConsoleColor.Yellow;
+                            Console.SetCursorPosition(43, numberEnemy);
+
+                            Console.WriteLine(enemyHealth);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+
+                        else if (unit.hp < 16)
+                        {
+                            enemyHealth = "(barely alive  )";
+
+                            Console.ForegroundColor = ConsoleColor.DarkRed;
+                            Console.SetCursorPosition(43, numberEnemy);
+
+                            Console.WriteLine(enemyHealth);
+                            Console.ForegroundColor = ConsoleColor.White;
+                        }
+                    }
+                    numberEnemy++;
+                }
+
+            } // Printtaa pelaajan- ja vihollisen armeijan
+
+            void PressAnyKeyToStart()
+            {
+                int i = 10;
+                Console.SetCursorPosition(0, i);
+                Console.WriteLine("Press any key to start fight....");
+                Console.ReadKey();
+                Console.SetCursorPosition(0, i + 1);
+                Console.WriteLine("        ");
+                i++;
+
+                if (i > 11)
+                {
+                    Console.SetCursorPosition(5, 15);
+                }
+            } // Odottaa kun pelaaja painaa jotain nappia jotta taistelu alkaisi ja pistää sen oikeseen paikkaan.
+
+            void CheckIfEveryoneAttacked()
+            {
+                int i = 0;
+                int a = 0;
+                foreach (Unit unit in player_army)
+                {
+                    if (unit.attacked == true)
+                        i++;
+
+                    if (unit.hp > 0)
+                        a++;
+                }
+
+                foreach (Unit unit in player_army)
+                {
+                    if (i == a)
+                    {
+                        unit.attacked = false;
+                    }
+                }
+
+            } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
+
+            void AsciiToInteger(int i)
+            {
+                // Pelaaja
+                if (i == 49)
+                    attacker = 1;
+                else if (i == 50)
+                    attacker = 2;
+                else if (i == 51)
+                    attacker = 3;
+
+                // Vihollinen
+                else if (i == 52)
+                    target = 4;
+                else if (i == 53)
+                    target = 5;
+                else if (i == 54)
+                    target = 6;
+            } // Converttaa asciista oikeisiin numeroihin.
+
+            void Undo()
+            {
+                if (warrior.Count > 0)
+                {
+                    // Pelaajan terveys
+                    humanWarrior.hp = warrior[warrior.Count - 1];
+                    warrior.RemoveAt(warrior.Count - 1);
+
+                    humanArcher.hp = archer[archer.Count - 1];
+                    archer.RemoveAt(archer.Count - 1);
+
+                    humanMage.hp = mage[mage.Count - 1];
+                    mage.RemoveAt(mage.Count - 1);
+
+                    // Vihollisten terveys
+                    skeletonWarrior.hp = eWarrior[eWarrior.Count - 1];
+                    eWarrior.RemoveAt(eWarrior.Count - 1);
+
+                    skeletonArcher.hp = eArcher[eArcher.Count - 1];
+                    eArcher.RemoveAt(eArcher.Count - 1);
+
+                    skeletonMage.hp = eMage[eMage.Count - 1];
+                    eMage.RemoveAt(eMage.Count - 1);
+
+                    // Pelaajan bool
+                    humanWarrior.attacked = warriorBool[warriorBool.Count - 1];
+                    warriorBool.RemoveAt(warriorBool.Count - 1);
+
+                    humanArcher.attacked = archerBool[archerBool.Count - 1];
+                    archerBool.RemoveAt(archerBool.Count - 1);
+
+                    humanMage.attacked = mageBool[mageBool.Count - 1];
+                    mageBool.RemoveAt(mageBool.Count - 1);
+
+                    // Vihollisten bool
+                    skeletonWarrior.attacked = eWarriorBool[eWarriorBool.Count - 1];
+                    eWarriorBool.RemoveAt(eWarriorBool.Count - 1);
+
+                    skeletonArcher.attacked = eArcherBool[eArcherBool.Count - 1];
+                    eArcherBool.RemoveAt(eArcherBool.Count - 1);
+
+                    skeletonMage.attacked = eMageBool[eMageBool.Count - 1];
+                    eMageBool.RemoveAt(eMageBool.Count - 1);
+
+                }
             }
+            #endregion
 
         }
 
