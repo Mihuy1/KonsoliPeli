@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Yahhas\\Documents\\KonsoliPeli\\Peli\\Peli.csproj": {}
+    "C:\\Users\\Yahhas\\Documents\\GitHub\\KonsoliPeli\\Peli\\Peli.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Yahhas\\Documents\\KonsoliPeli\\Peli\\Peli.csproj": {
+    "C:\\Users\\Yahhas\\Documents\\GitHub\\KonsoliPeli\\Peli\\Peli.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Yahhas\\Documents\\KonsoliPeli\\Peli\\Peli.csproj",
+        "projectUniqueName": "C:\\Users\\Yahhas\\Documents\\GitHub\\KonsoliPeli\\Peli\\Peli.csproj",
         "projectName": "Peli",
-        "projectPath": "C:\\Users\\Yahhas\\Documents\\KonsoliPeli\\Peli\\Peli.csproj",
+        "projectPath": "C:\\Users\\Yahhas\\Documents\\GitHub\\KonsoliPeli\\Peli\\Peli.csproj",
         "packagesPath": "C:\\Users\\Yahhas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Yahhas\\Documents\\KonsoliPeli\\Peli\\obj\\",
+        "outputPath": "C:\\Users\\Yahhas\\Documents\\GitHub\\KonsoliPeli\\Peli\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

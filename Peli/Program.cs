@@ -25,6 +25,8 @@ namespace Peli
             List<int> eArcher = new List<int>();
             List<int> eMage = new List<int>();
 
+            List<int> storeNumber1 = new List<int>();
+
             List<bool> warriorBool = new List<bool>();
             List<bool> archerBool = new List<bool>();
             List<bool> mageBool = new List<bool>();
@@ -33,9 +35,8 @@ namespace Peli
             List<bool> eMageBool = new List<bool>();
             List<bool> eArcherBool = new List<bool>();
 
-            #endregion
-
             Random random = new Random();
+            #endregion
 
             // Armeijat
             #region
@@ -122,6 +123,9 @@ namespace Peli
                 eWarrior.Add(skeletonWarrior.hp);
                 eArcher.Add(skeletonArcher.hp);
                 eMage.Add(skeletonMage.hp);
+
+                // number1 integer joka tallentaa mihin kohtaan on printattu hyökkäykset, incorrect id jne
+                storeNumber1.Add(number1);
 
                 // Pelaajan bool
                 warriorBool.Add(humanWarrior.attacked);
@@ -560,6 +564,10 @@ namespace Peli
             {
                 if (warrior.Count > 0)
                 {
+                    // number1 integer
+                    number1 = storeNumber1[storeNumber1.Count - 1];
+                    storeNumber1.RemoveAt(storeNumber1.Count - 1);
+
                     // Pelaajan terveys
                     humanWarrior.hp = warrior[warrior.Count - 1];
                     warrior.RemoveAt(warrior.Count - 1);

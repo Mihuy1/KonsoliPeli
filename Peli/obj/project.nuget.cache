@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/wi5dDS/9BtYX6ivqYyiYXeWPviyuCh9eISJMPOfWrWstg42yLZYU7IwgSR5c4CBFwI5LG++qh6cnEbkzOyMiA==",
+  "dgSpecHash": "x+SOk27ltZ2vNXxyR/4TY/ZT25lf4x40u7kkKjPcz/h9xI4QwOry8APmie/sGNYGaf4aMgiYdC0djnxQxA4QxA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Yahhas\\Documents\\KonsoliPeli\\Peli\\Peli.csproj",
+  "projectFilePath": "C:\\Users\\Yahhas\\Documents\\GitHub\\KonsoliPeli\\Peli\\Peli.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Yahhas\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
     "C:\\Users\\Yahhas\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
