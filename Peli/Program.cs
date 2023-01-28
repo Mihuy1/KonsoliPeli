@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Diagnostics.Metrics;
 using System.Media;
 using System.Security.Cryptography;
 using System.Threading;
@@ -26,6 +27,7 @@ namespace Peli
             List<int> eMage = new List<int>();
 
             List<int> storeNumber1 = new List<int>();
+            List<int> storeAttackedInteger = new List<int>();
 
             List<bool> warriorBool = new List<bool>();
             List<bool> archerBool = new List<bool>();
@@ -65,11 +67,14 @@ namespace Peli
             int number1 = 13;
             int numberEnemy = 1;
             int numberPlayer = 1;
+
             int target;
             int attacker;
+
             int count = 0;
 
             string enemyHealth;
+
             bool player = false;
             bool enemy = false;
             #endregion
@@ -136,11 +141,13 @@ namespace Peli
                 eWarriorBool.Add(skeletonWarrior.attacked);
                 eArcherBool.Add(skeletonArcher.attacked);
                 eMageBool.Add(skeletonMage.attacked);
-                
+
                 #endregion
 
                 // Kuka höykkää osio
                 #region
+                CheckIfEveryoneAttacked();
+
                 Console.SetCursorPosition(34, 8);
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
@@ -163,6 +170,7 @@ namespace Peli
                     Console.SetCursorPosition(18, 8);
                     attacker = Console.ReadKey().KeyChar;
                     AsciiToInteger(attacker);
+                    number1++;
                 }
 
                 CheckIfEveryoneAttacked();
@@ -227,6 +235,8 @@ namespace Peli
                 var attackerUnit = player_army[attacker - 1];
                 #endregion
 
+                CheckIfEveryoneAttacked();
+
                 FightEnemy(attackerUnit, enemy_army[target - 4]); ;
 
                 FightPlayer();
@@ -241,8 +251,10 @@ namespace Peli
 
                 PressAnyKeyToStart();
 
-                if (number1 >= 29)
+                if (number1 >= 27)
                     number1 = 13;
+
+                CheckIfEveryoneAttacked();
 
                 Console.Clear();
             }
@@ -263,6 +275,8 @@ namespace Peli
 
             void ChooseWhoWillAttack(Unit unit)
             {
+                CheckIfEveryoneAttacked();
+
                 if (unit.attacked == false)
                 {
                     Console.SetCursorPosition(1, unit.id);
@@ -279,7 +293,7 @@ namespace Peli
                     if (unit == humanArcher)
                     {
 
-                        if (humanWarrior.hp <= 0)
+                       /* if (humanWarrior.hp <= 0)
                         {
                             Console.SetCursorPosition(1, 1);
                             Console.BackgroundColor = ConsoleColor.Green;
@@ -287,31 +301,30 @@ namespace Peli
                             Console.BackgroundColor = ConsoleColor.Black;
                         }
                         else
-                        {
+                        {*/
                             Console.SetCursorPosition(1, 2);
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
                             Console.BackgroundColor = ConsoleColor.Black;
-                        }
 
                     }
 
                     if (unit == humanMage)
                     {
-                        if (humanArcher.hp <= 0 || humanWarrior.hp <= 0)
+                        /*if (humanArcher.hp <= 0 || humanWarrior.hp <= 0)
                         {
                             Console.SetCursorPosition(1, 2);
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
                             Console.BackgroundColor = ConsoleColor.Black;
                         }
-                        else
-                        {
+                        else*/
+                        //{
                             Console.SetCursorPosition(1, 3);
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
                             Console.BackgroundColor = ConsoleColor.Black;
-                        }
+                        //}
                     }
                 }
                 else
@@ -522,13 +535,16 @@ namespace Peli
             {
                 int i = 0;
                 int a = 0;
+
                 foreach (Unit unit in player_army)
                 {
                     if (unit.attacked == true)
                         i++;
 
                     if (unit.hp > 0)
+                    {
                         a++;
+                    }
                 }
 
                 foreach (Unit unit in player_army)
