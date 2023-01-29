@@ -256,6 +256,7 @@ namespace Peli
 
                 CheckIfEveryoneAttacked();
 
+
                 Console.Clear();
             }
 
@@ -533,23 +534,23 @@ namespace Peli
 
             void CheckIfEveryoneAttacked()
             {
-                int i = 0;
-                int a = 0;
+                int attacked = 0;
+                int alive = 0;
 
                 foreach (Unit unit in player_army)
                 {
                     if (unit.attacked == true)
-                        i++;
+                        attacked++;
 
                     if (unit.hp > 0)
                     {
-                        a++;
+                        alive++;
                     }
                 }
 
                 foreach (Unit unit in player_army)
                 {
-                    if (i == a)
+                    if (attacked == alive)
                     {
                         unit.attacked = false;
                     }
