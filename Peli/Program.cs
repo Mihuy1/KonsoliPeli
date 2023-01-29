@@ -406,7 +406,7 @@ namespace Peli
 
             void CheckIfAlive()
             {
-                for (int i = 0; i < player_army.Count; i++)
+                /*for (int i = 0; i < player_army.Count; i++)
                 {
                     if (player_army[i].hp <= 0)
                     {
@@ -424,7 +424,68 @@ namespace Peli
                         Console.SetCursorPosition(24, i + 1);
                         Console.WriteLine("Dead");
                     }
+                }*/
+
+                // player check
+                #region
+                foreach (Unit unit in player_army)
+                {
+                    if (unit.hp <= 0)
+                    {
+                        if (unit.name == humanWarrior.name)
+                        {
+                            Console.Clear();
+                            Console.SetCursorPosition(1, 1);
+                            Console.WriteLine("Dead");
+                        }
+
+                        if (unit.name == humanArcher.name)
+                        {
+                            Console.Clear();
+                            Console.SetCursorPosition(1, 2);
+                            Console.WriteLine("Dead");
+                        }
+
+                        if (unit.name == humanMage.name)
+                        {
+                            Console.Clear();
+                            Console.SetCursorPosition(1, 3);
+                            Console.WriteLine("Dead");
+                        }
+                    }
                 }
+                #endregion
+
+                // enemy check
+                #region
+                foreach (Unit unit in enemy_army)
+                {
+                    if (unit.hp <= 0)
+                    {
+                        if (unit.name == skeletonWarrior.name)
+                        {
+                            Console.Clear();
+                            Console.SetCursorPosition(24, 1);
+                            Console.WriteLine("Dead");
+                        }
+
+                        if (unit.name == skeletonArcher.name)
+                        {
+                            Console.Clear();
+                            Console.SetCursorPosition(24, 2);
+                            Console.WriteLine("Dead");
+                        }
+
+                        if (unit.name == skeletonMage.name)
+                        {
+                            Console.Clear();
+                            Console.SetCursorPosition(24, 3);
+                            Console.WriteLine("Dead");
+                        }
+                    }
+                }
+                #endregion
+
             } // Tarkistetaan jos joku on kuollut = siivotaan konsoli
 
             void PrintBase()
@@ -551,6 +612,9 @@ namespace Peli
                 foreach (Unit unit in player_army)
                 {
                     if (attacked == alive)
+                    {
+                        unit.attacked = false;
+                    } else if (alive == 1)
                     {
                         unit.attacked = false;
                     }
