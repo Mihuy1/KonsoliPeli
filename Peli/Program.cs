@@ -200,18 +200,7 @@ namespace Peli
                     number1++;
                 }
 
-                /*if (target > skeletonMage.id)
-                {
-                    Console.SetCursorPosition(1, number1 + 1);
-                    Console.WriteLine("Incorrect id!");
-                    Console.SetCursorPosition(16, 9);
-                    target = Console.ReadKey().KeyChar;
-                    AsciiToInteger(target);
-
-                    number1++;
-                }*/
-
-                if (enemy_army[target - 4].hp <= 0)
+                while (enemy_army[target - 4].hp <= 0)
                 {
                     Console.SetCursorPosition(1, number1 + 1);
                     Console.WriteLine("Enemy is dead! Choose again!");
@@ -222,11 +211,8 @@ namespace Peli
                     Console.SetCursorPosition(16, 9);
                     target = Console.ReadKey().KeyChar;
                     AsciiToInteger(target);
-
-                } else
-                {
-                    ChooseEnemy(enemy_army[target - 4]);
                 }
+                ChooseEnemy(enemy_army[target - 4]);
 
                 PressAnyKeyToStart();
 
@@ -255,9 +241,6 @@ namespace Peli
                     number1 = 13;
 
                 CheckIfEveryoneAttacked();
-
-
-                Console.Clear();
             }
 
             // Metodit
@@ -293,16 +276,6 @@ namespace Peli
 
                     if (unit == humanArcher)
                     {
-
-                       /* if (humanWarrior.hp <= 0)
-                        {
-                            Console.SetCursorPosition(1, 1);
-                            Console.BackgroundColor = ConsoleColor.Green;
-                            Console.WriteLine(unit.id + "." + unit.name);
-                            Console.BackgroundColor = ConsoleColor.Black;
-                        }
-                        else
-                        {*/
                             Console.SetCursorPosition(1, 2);
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
@@ -312,27 +285,17 @@ namespace Peli
 
                     if (unit == humanMage)
                     {
-                        /*if (humanArcher.hp <= 0 || humanWarrior.hp <= 0)
-                        {
-                            Console.SetCursorPosition(1, 2);
-                            Console.BackgroundColor = ConsoleColor.Green;
-                            Console.WriteLine(unit.id + "." + unit.name);
-                            Console.BackgroundColor = ConsoleColor.Black;
-                        }
-                        else*/
-                        //{
                             Console.SetCursorPosition(1, 3);
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
                             Console.BackgroundColor = ConsoleColor.Black;
-                        //}
                     }
                 }
                 else
                 {
                     while (unit.attacked == true)
                     {
-                        Console.SetCursorPosition(1, number1);
+                        Console.SetCursorPosition(1, number1 + 1);
                         Console.WriteLine(unit.name + " already attacked");
 
                         Console.SetCursorPosition(34, 8);
@@ -406,6 +369,8 @@ namespace Peli
 
             void CheckIfAlive()
             {
+                // Old check, seems a little buggy (Doesn't always print "Dead")
+                #region
                 /*for (int i = 0; i < player_army.Count; i++)
                 {
                     if (player_army[i].hp <= 0)
@@ -425,6 +390,7 @@ namespace Peli
                         Console.WriteLine("Dead");
                     }
                 }*/
+                #endregion
 
                 // player check
                 #region

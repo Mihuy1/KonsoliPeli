@@ -12,6 +12,11 @@ namespace Peli
     {
         public static void Start()
         {
+            int width = Console.LargestWindowWidth; 
+            int height = Console.LargestWindowHeight;
+
+            Console.SetBufferSize(width, height);
+
             string title = "Humans vs Skeletons";
             
             Console.SetCursorPosition((Console.WindowWidth - title.Length) / 2, Console.CursorTop);
