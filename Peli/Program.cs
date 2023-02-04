@@ -202,8 +202,12 @@ namespace Peli
 
                 while (enemy_army[target - 4].hp <= 0)
                 {
-                    Console.SetCursorPosition(1, number1 + 1);
-                    Console.WriteLine("Enemy is dead! Choose again!");
+                    Unit deadEnemy = enemy_army[target - 4];
+
+                    Console.SetCursorPosition(1, number1++);
+                    Console.Write(deadEnemy.name + "is dead! ");
+                    Console.SetCursorPosition(1, number1++);
+                    Console.Write("Choose again!");
 
                     Console.SetCursorPosition(1, 9);
                     Console.WriteLine("Who to attack: ");
@@ -265,7 +269,18 @@ namespace Peli
                 {
                     Console.SetCursorPosition(1, unit.id);
 
-                    if (unit == humanWarrior)
+                    for (int i = 0; i <= player_army.Count; i++)
+                    {
+                        if (i == unit.id)
+                        {
+                            Console.SetCursorPosition(1, i++);
+                            Console.BackgroundColor = ConsoleColor.Green;
+                            Console.WriteLine(unit.id + "." + unit.name);
+                            Console.BackgroundColor = ConsoleColor.Black;
+                        }
+                    }
+
+                    /*if (unit == humanWarrior)
                     {
                         Console.SetCursorPosition(1, 1);
                         Console.BackgroundColor = ConsoleColor.Green;
@@ -289,9 +304,9 @@ namespace Peli
                             Console.BackgroundColor = ConsoleColor.Green;
                             Console.WriteLine(unit.id + "." + unit.name);
                             Console.BackgroundColor = ConsoleColor.Black;
-                    }
+                    }*/
                 }
-                else
+                    else
                 {
                     while (unit.attacked == true)
                     {
@@ -369,29 +384,6 @@ namespace Peli
 
             void CheckIfAlive()
             {
-                // Old check, seems a little buggy (Doesn't always print "Dead")
-                #region
-                /*for (int i = 0; i < player_army.Count; i++)
-                {
-                    if (player_army[i].hp <= 0)
-                    {
-                        Console.SetCursorPosition(1, player_army[i].id);
-                        Console.WriteLine("Dead");
-                        Console.Clear();
-                    }
-                }
-
-                for (int i = 0; i < enemy_army.Count; i++)
-                {
-                    if (enemy_army[i].hp <= 0)
-                    {
-                        Console.Clear();
-                        Console.SetCursorPosition(24, i + 1);
-                        Console.WriteLine("Dead");
-                    }
-                }*/
-                #endregion
-
                 // player check
                 #region
                 foreach (Unit unit in player_army)
