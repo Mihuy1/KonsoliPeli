@@ -181,11 +181,21 @@ namespace Peli
 
                 // Valitaan ketä hyökätään
                 #region
+
                 Console.SetCursorPosition(1, 9);
                 Console.WriteLine("Who to attack: ");
 
                 Console.SetCursorPosition(16, 9);
                 target = Console.ReadKey().KeyChar;
+
+                if (target > 54)
+                {
+                    while (target > 54)
+                    {
+                        Console.SetCursorPosition(16, 9);
+                        target = Console.ReadKey().KeyChar;
+                    }
+                }
 
                 AsciiToInteger(target);
 
@@ -200,12 +210,19 @@ namespace Peli
                     number1++;
                 }
 
+                while (target > 54)
+                {
+                    Console.SetCursorPosition(16, 9);
+                    target = Console.ReadKey().KeyChar;
+                }
+
+
                 while (enemy_army[target - 4].hp <= 0)
                 {
                     Unit deadEnemy = enemy_army[target - 4];
 
                     Console.SetCursorPosition(1, number1++);
-                    Console.Write(deadEnemy.name + "is dead! ");
+                    Console.Write(deadEnemy.name + " is dead! ");
                     Console.SetCursorPosition(1, number1++);
                     Console.Write("Choose again!");
 
@@ -289,6 +306,12 @@ namespace Peli
 
                         Console.SetCursorPosition(34, 8);
                         attacker = Console.ReadKey().KeyChar;
+
+                        while (attacker > 51)
+                        {
+                            Console.SetCursorPosition(34, 8);
+                            attacker = Console.ReadKey().KeyChar;
+                        }
 
                         AsciiToInteger(attacker);
 
