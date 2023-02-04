@@ -107,7 +107,7 @@ namespace Peli
 
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.SetCursorPosition(1, 8);
-                Console.WriteLine("Who will attack (ctrl+z to undo):   " + number1);
+                Console.WriteLine("Who will attack (ctrl+z to undo):   ");
 
                 Console.SetCursorPosition(34, 8);
                 ConsoleKeyInfo info = Console.ReadKey();

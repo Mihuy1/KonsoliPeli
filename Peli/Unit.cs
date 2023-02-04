@@ -7,6 +7,7 @@ namespace Peli
 {
     public class Unit
     {
+        // Variables
         public string name;
         public int dmg;
         public int hp;
@@ -14,6 +15,7 @@ namespace Peli
         public int maxHealth;
         public bool attacked;
 
+        // Unit constructor
         public Unit(string name, int dmg, int health, int maxHealth, bool attacked, int id)
         {
             this.name = name;
