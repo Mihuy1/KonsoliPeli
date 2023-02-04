@@ -279,32 +279,6 @@ namespace Peli
                             Console.BackgroundColor = ConsoleColor.Black;
                         }
                     }
-
-                    /*if (unit == humanWarrior)
-                    {
-                        Console.SetCursorPosition(1, 1);
-                        Console.BackgroundColor = ConsoleColor.Green;
-                        Console.WriteLine(unit.id + "." + unit.name);
-                        Console.BackgroundColor = ConsoleColor.Black;
-
-                    }
-
-                    if (unit == humanArcher)
-                    {
-                            Console.SetCursorPosition(1, 2);
-                            Console.BackgroundColor = ConsoleColor.Green;
-                            Console.WriteLine(unit.id + "." + unit.name);
-                            Console.BackgroundColor = ConsoleColor.Black;
-
-                    }
-
-                    if (unit == humanMage)
-                    {
-                            Console.SetCursorPosition(1, 3);
-                            Console.BackgroundColor = ConsoleColor.Green;
-                            Console.WriteLine(unit.id + "." + unit.name);
-                            Console.BackgroundColor = ConsoleColor.Black;
-                    }*/
                 }
                     else
                 {
