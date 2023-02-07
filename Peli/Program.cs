@@ -188,13 +188,10 @@ namespace Peli
                 Console.SetCursorPosition(16, 9);
                 target = Console.ReadKey().KeyChar;
 
-                if (target > 54)
+                while (target > 54)
                 {
-                    while (target > 54)
-                    {
-                        Console.SetCursorPosition(16, 9);
-                        target = Console.ReadKey().KeyChar;
-                    }
+                    Console.SetCursorPosition(16, 9);
+                    target = Console.ReadKey().KeyChar;
                 }
 
                 AsciiToInteger(target);
@@ -216,23 +213,37 @@ namespace Peli
                     target = Console.ReadKey().KeyChar;
                 }
 
-
-                while (enemy_army[target - 4].hp <= 0)
+                if (target <= 54)
                 {
-                    Unit deadEnemy = enemy_army[target - 4];
+                    while (enemy_army[target - 4].hp <= 0)
+                    {
+                        Unit deadEnemy = enemy_army[target - 4];
 
-                    Console.SetCursorPosition(1, number1++);
-                    Console.Write(deadEnemy.name + " is dead! ");
-                    Console.SetCursorPosition(1, number1++);
-                    Console.Write("Choose again!");
+                        Console.SetCursorPosition(1, number1++);
+                        Console.Write(deadEnemy.name + " is dead! ");
+                        Console.SetCursorPosition(1, number1++);
+                        Console.Write("Choose again!");
 
-                    Console.SetCursorPosition(1, 9);
-                    Console.WriteLine("Who to attack: ");
+                        Console.SetCursorPosition(1, 9);
+                        Console.WriteLine("Who to attack: ");
 
-                    Console.SetCursorPosition(16, 9);
-                    target = Console.ReadKey().KeyChar;
-                    AsciiToInteger(target);
+                        Console.SetCursorPosition(16, 9);
+                        target = Console.ReadKey().KeyChar;
+                        AsciiToInteger(target);
+                    }
+                } else
+                {
+                    while (target > 54)
+                    {
+                        Console.SetCursorPosition(1, number1 + 2);
+                        Console.Write("Incorrect id!");
+
+                        Console.SetCursorPosition(16, 9);
+                        target = Console.ReadKey().KeyChar;
+                    }
+                    continue;
                 }
+
                 ChooseEnemy(enemy_army[target - 4]);
 
                 PressAnyKeyToStart();
