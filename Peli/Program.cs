@@ -159,7 +159,7 @@
                     number1++;
                 }
 
-                if (player_army[attacker - 1].hp <= 0)
+                while (player_army[attacker - 1].hp <= 0)
                 {
                     Console.SetCursorPosition(1, number1++);
                     Console.WriteLine(player_army[attacker - 1].name + " is dead");
@@ -296,6 +296,7 @@
 
                 if (unit.attacked == false)
                 {
+                    
                     Console.SetCursorPosition(1, unit.id);
 
                     for (int i = 0; i <= player_army.Count; i++)
