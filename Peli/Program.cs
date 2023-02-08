@@ -270,7 +270,11 @@ namespace Peli
                 PressAnyKeyToStart();
 
                 if (number1 >= 27)
+                {
                     number1 = 13;
+
+                    storeNumber1.Clear();
+                }
 
                 CheckIfEveryoneAttacked();
             }
@@ -654,6 +658,8 @@ namespace Peli
 
                     skeletonMage.attacked = eMageBool[eMageBool.Count - 1];
                     eMageBool.RemoveAt(eMageBool.Count - 1);
+
+                    Console.Clear();
 
                 }
             }
