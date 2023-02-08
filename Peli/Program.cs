@@ -1,11 +1,4 @@
-﻿using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Media;
-using System.Security.Cryptography;
-using System.Threading;
-using System.Windows.Input;
-
-namespace Peli
+﻿namespace Peli
 {
     public class Program
     {
@@ -67,6 +60,8 @@ namespace Peli
             int number1 = 13;
             int numberEnemy = 1;
             int numberPlayer = 1;
+            int attackedCounter = 0;
+            int aliveCount = 0;
 
             int target;
             int attacker;
@@ -83,6 +78,8 @@ namespace Peli
             {
                 numberEnemy = 1;
                 numberPlayer = 1;
+                attackedCounter = 0;
+                aliveCount = 0;
 
                 CheckIfEveryoneAttacked();
 
@@ -151,7 +148,6 @@ namespace Peli
                 Console.SetCursorPosition(34, 8);
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
-
                 while (attacker > humanMage.id)
                 {
                     Console.SetCursorPosition(1, number1 + 1);
@@ -231,7 +227,8 @@ namespace Peli
                         target = Console.ReadKey().KeyChar;
                         AsciiToInteger(target);
                     }
-                } else
+                }
+                else
                 {
                     while (target > 54)
                     {
@@ -312,12 +309,30 @@ namespace Peli
                         }
                     }
                 }
-                    else
+                else
                 {
                     while (unit.attacked == true)
                     {
+                        foreach (Unit u in player_army)
+                        {
+                            if (u.attacked == true)
+                            {
+                                attackedCounter++;
+                            }
+                        }
+
+                        if (attackedCounter == player_army.Count)
+                        {
+                            foreach (Unit u in player_army)
+                            {
+                                u.attacked = false;
+                            }
+                        }
+
                         Console.SetCursorPosition(1, number1 + 1);
                         Console.WriteLine(unit.name + " already attacked");
+
+                        CheckIfEveryoneAttacked();
 
                         Console.SetCursorPosition(34, 8);
                         attacker = Console.ReadKey().KeyChar;
@@ -584,11 +599,14 @@ namespace Peli
                     if (attacked == alive)
                     {
                         unit.attacked = false;
-                    } else if (alive == 1)
+                    }
+                    else if (alive == 1)
                     {
                         unit.attacked = false;
                     }
                 }
+
+                
 
             } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 
@@ -616,8 +634,12 @@ namespace Peli
                 if (warrior.Count > 0)
                 {
                     // number1 integer
-                    number1 = storeNumber1[storeNumber1.Count - 1];
-                    storeNumber1.RemoveAt(storeNumber1.Count - 1);
+                    if (storeNumber1.Count > 0)
+                    {
+                        number1 = storeNumber1[storeNumber1.Count - 1];
+                        storeNumber1.RemoveAt(storeNumber1.Count - 1);
+                    }
+
 
                     // Pelaajan terveys
                     humanWarrior.hp = warrior[warrior.Count - 1];
@@ -660,6 +682,8 @@ namespace Peli
                     eMageBool.RemoveAt(eMageBool.Count - 1);
 
                     Console.Clear();
+
+                    CheckIfEveryoneAttacked();
 
                 }
             }

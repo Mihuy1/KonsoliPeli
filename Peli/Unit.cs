@@ -1,9 +1,4 @@
-﻿using System;
-using System.Diagnostics.Metrics;
-using System.Reflection;
-using System.Threading;
-
-namespace Peli
+﻿namespace Peli
 {
     public class Unit
     {
@@ -28,4 +23,3 @@ namespace Peli
     }
 }
 
-   

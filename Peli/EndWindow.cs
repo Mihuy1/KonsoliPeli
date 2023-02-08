@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Peli
+﻿namespace Peli
 {
     public static class EndWindow
     {
@@ -17,6 +11,9 @@ namespace Peli
             Console.ForegroundColor = ConsoleColor.DarkCyan;
             Console.WriteLine(playerWon);
             Console.ForegroundColor = ConsoleColor.White;
+
+            Console.Write("Press any key to end game!");
+            Console.ReadKey();
         }
 
         public static void EnemyWon()
@@ -27,7 +24,10 @@ namespace Peli
             Console.SetCursorPosition((Console.WindowWidth - enemyWon.Length) / 2, Console.CursorTop);
             Console.ForegroundColor = ConsoleColor.DarkRed;
             Console.WriteLine(enemyWon);
-            Console.ForegroundColor= ConsoleColor.White;
+            Console.ForegroundColor = ConsoleColor.White;
+
+            Console.Write("Press any key to end game!");
+            Console.ReadKey();
         }
     }
 }
