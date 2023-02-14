@@ -148,6 +148,7 @@
                 Console.SetCursorPosition(34, 8);
                 attacker = Console.ReadKey().KeyChar;
                 AsciiToInteger(attacker);
+
                 while (attacker > humanMage.id)
                 {
                     Console.SetCursorPosition(1, number1 + 1);
@@ -211,6 +212,7 @@
 
                 if (target <= 54)
                 {
+
                     while (enemy_army[target - 4].hp <= 0)
                     {
                         Unit deadEnemy = enemy_army[target - 4];
@@ -226,6 +228,17 @@
                         Console.SetCursorPosition(16, 9);
                         target = Console.ReadKey().KeyChar;
                         AsciiToInteger(target);
+
+                        while (target > 54)
+                        {
+                            Console.SetCursorPosition(1, number1++);
+                            Console.Write("Incorrect Id!");
+
+                            Console.SetCursorPosition(16, 9);
+                            target = Console.ReadKey().KeyChar;
+                            AsciiToInteger(target);
+                        }
+
                     }
                 }
                 else
@@ -296,7 +309,7 @@
 
                 if (unit.attacked == false)
                 {
-                    
+
                     Console.SetCursorPosition(1, unit.id);
 
                     for (int i = 0; i <= player_army.Count; i++)
@@ -607,7 +620,7 @@
                     }
                 }
 
-                
+
 
             } // Tarkistaa jos kaikki on hyökänny = pistetään booleanit takaisin falseen
 

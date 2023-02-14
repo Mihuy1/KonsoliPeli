@@ -11,7 +11,7 @@
 
             string title = "Humans vs Skeletons";
 
-            string pressAnyKey = "Press any key to start Humans vs Skeletons!";
+            string pressAnyKey = "Press any KEY to start Humans vs Skeletons!";
 
             Console.SetCursorPosition((Console.WindowWidth - title.Length) / 2, Console.CursorTop);
             Console.ForegroundColor = ConsoleColor.Cyan;
